@@ -1,0 +1,10 @@
+---
+title: "Visualisation de données"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+ggplot2, forcats (fct_reorder et auters - cf http://r4ds.had.co.nz/factors.html), ggmap (?), leaflet (?), 

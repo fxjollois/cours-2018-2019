@@ -1,11 +1,13 @@
 ## Département STID, IUT Paris Descartes
 
-- DUT STID 1ère année
-    - [Exploitation de données](exploitation-donnees)
 - DUT STID 2ème année (en alternance)
-    - [Travaux de fin d'études](tfe)
+    - [Programmation avec R](stid-2afa--prog-r/)
+    - [Travaux de fin d'études](stid-2afa--tfe)
     
 <!--
+- DUT STID 1ère année
+    - [Exploitation de données](exploitation-donnees)
+
 - LP Santé
     - [R avancé](info-dec-sante/)
 - LP Data-Mining

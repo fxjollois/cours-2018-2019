@@ -1,0 +1,147 @@
+---
+title: "Seance 1 - *correction*"
+author: "FX Jollois"
+date: "18 septembre 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+# Importation à mettre ici
+country
+serie
+type
+values
+```
+
+
+1. Créer la table des valeurs avec une ligne par pays | indicateur | année, que vous stockerez dans un cinquième `tibble`
+
+```{r}
+values_long = values %>%
+  gather(Year, Value,-CountryCode, -SerieCode, -TypeCode)
+```
+
+1. Donner le nombre de pays présent dans les données
+```{r}
+country %>% count()
+```
+
+1. Dans la table initiales des valeurs, ne retenir que les valeurs dont le `TypeCode` est `"EST"`.
+```{r}
+values %>% filter(TypeCode== "EST")
+```
+
+1. Pour la série `"CC"` et le type `"EST"`, quelles sont les valeurs moyenne, maximale et minimale ? (utiliser la table longue)
+```{r}
+values_long %>% 
+  filter(SerieCode == "CC" & TypeCode == "EST") %>%
+  summarise(
+    Moyenne = mean(Value, na.rm = TRUE),
+    Maximum = max(Value, na.rm = TRUE),
+    Minimum = min(Value, na.rm = TRUE)
+  )
+```
+
+1. Je veux les mêmes informations, mais pour chaque code de pays
+```{r}
+values_long %>% 
+  filter(SerieCode == "CC" & TypeCode == "EST") %>%
+  group_by(CountryCode) %>%
+  summarise(
+    Moyenne = mean(Value, na.rm = TRUE),
+    Maximum = max(Value, na.rm = TRUE),
+    Minimum = min(Value, na.rm = TRUE)
+  )
+```
+
+1. Maintenant, on souhaite classer les pays par ordre décroissant de la valeur moyenne.
+```{r}
+values_long %>% 
+  filter(SerieCode == "CC" & TypeCode == "EST") %>%
+  group_by(CountryCode) %>%
+  summarise(
+    Moyenne = mean(Value, na.rm = TRUE),
+    Maximum = max(Value, na.rm = TRUE),
+    Minimum = min(Value, na.rm = TRUE)
+  ) %>%
+  arrange(desc(Moyenne))
+```
+
+1. Pour finaliser le tableau, on souhaite avoir les noms des pays plutôt que le code (pas les deux informations - nom du pays en premier)
+```{r}
+values_long %>% 
+  filter(SerieCode == "CC" & TypeCode == "EST") %>%
+  group_by(CountryCode) %>%
+  summarise(
+    Moyenne = mean(Value, na.rm = TRUE),
+    Maximum = max(Value, na.rm = TRUE),
+    Minimum = min(Value, na.rm = TRUE)
+  ) %>%
+  arrange(desc(Moyenne)) %>%
+  inner_join(country) %>%
+  select(-CountryCode) %>%
+  select(CountryName, everything())
+```
+
+
+1. Donner toutes les informations concernant la France (années en colonnes)
+```{r}
+values %>%
+  inner_join(country) %>%
+  filter(CountryName == "France")
+```
+
+1. Dans ce résultat, on ne souhaite que les valeurs dont le type est `"Estimate"`.
+```{r}
+values %>%
+  inner_join(country) %>%
+  filter(CountryName == "France") %>%
+  inner_join(type) %>%
+  filter(TypeName == "Estimate")
+```
+
+1. Ce tableau n'étant pas très clair, nous allons ajouter en début de tableau les noms des séries et supprimer toutes les informations inutiles.
+```{r}
+values %>%
+  inner_join(country) %>%
+  filter(CountryName == "France") %>%
+  inner_join(type) %>%
+  filter(TypeName == "Estimate") %>%
+  inner_join(serie) %>%
+  select(SerieName, starts_with("Y"))
+```
+
+
+1. Maintenant, nous souhaitons un tableau devant contenir en ligne les années et en colonnes les séries. On va en quelque sorte réaliser une transposée de la table précédente.
+```{r}
+values %>%
+  inner_join(country) %>%
+  filter(CountryName == "France") %>%
+  inner_join(type) %>%
+  filter(TypeName == "Estimate") %>%
+  inner_join(serie) %>%
+  select(SerieName, starts_with("Y")) %>% 
+  gather(Year, Value, -SerieName) %>%
+  spread(SerieName, Value)
+```
+
+
+1. Pour quel pays (nom du pays) y a t'il des données manquantes ? et en quelle quantité ? (trier les pays dans l'ordre décroissant du nombre de valeurs manquantes)
+```{r}
+sum(is.na(values_long))
+values_long %>%
+  group_by(CountryCode) %>%
+  summarise(nbNA = sum(is.na(Value))) %>%
+  filter(nbNA > 0) %>%
+  arrange(desc(nbNA)) %>%
+  inner_join(country)
+```
+
+
