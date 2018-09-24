@@ -15,4 +15,8 @@
 ### Bibliographie
 
 - [tidyverse](http://tidyverse.org/)
-- [R for Data Science](http://r4ds.had.co.nz/), G. Grolemund & H. Wickham
+- [*R for Data Science*](http://r4ds.had.co.nz/), G. Grolemund & H. Wickham
+- [*Grammar of Graphics*](http://www.springer.com/us/book/9780387245447)), Leland Wilkinson
+- [Documentation `ggplot2`](http://docs.ggplot2.org/current/)
+- [A Layered Grammar of Graphics](http://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), H. Wickham
+
