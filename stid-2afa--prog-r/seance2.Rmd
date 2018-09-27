@@ -339,6 +339,48 @@ json_file <- 'https://datahub.io/core/geo-countries/r/countries.geojson'
 etats = geojson_read(json_file, what = "sp")
 ```
 
+Dans la variable `etats`, il y a une table avec les noms des pays et le code ISO associé. C'est cette table qui nous permettra par la suite de mettre une couleur en fonction d'une mesure statistique plus tard (en réalisant une jointure).
+
+```{r}
+head(etats@data)
+```
+
+Pour affecter une couleur en fonction d'une variable, nous décidons de tirer ici des valeurs issues d'une variable aléatoire uniforme entre 0 et 1.
+
+```{r}
+# Création d'une variable aléatoire pour tester
+etats@data$var = runif(nrow(etats@data))
+```
+
+### Graphique
+
+A partir de ces données, nous allons pouvoir représenter les pays sur un graphique avec la fonction `ggplot()`. Pour cela, nous allons devoir modifier la structure des données, avec la fonction `fortify()`.
+
+```{r}
+etats_f = fortify(etats)
+```
+
+Ensuite, nous pouvons donc créer une représentation graphique des pays.
+
+```{r}
+ggplot(etats_f, aes(long, lat, group = group)) +
+  geom_polygon(color = "white") +
+  theme_void()
+```
+
+Puisque nous avons une variable, nous pouvons choisir de colorer les pays en fonction de celle-ci automatiquement.
+
+```{r}
+etats_fj = etats_f %>%
+  inner_join(etats@data %>% rownames_to_column("id"), by = "id")
+ggplot(etats_fj, aes(long, lat, group = group, fill = var)) +
+  geom_polygon(color = "white") +
+  theme_void()
+```
+
+
+### Carte
+
 Pour créer une carte, on doit réaliser au minimum deux étapes :
 
 1. la création d'un objet de type carte, avec la fonction `leaflet()`
@@ -358,18 +400,9 @@ carte = leaflet(etats) %>%
 carte
 ```
 
-Dans la variable `etats`, il y a une table avec les noms des pays et le code ISO associé. C'est cette table qui nous permettra par la suite de mettre une couleur en fonction d'une mesure statistique plus tard (en réalisant une jointure).
+Grâce à la fonction `colorBin()`, nous créons une palette qui permettra d'associer une valeur à une couleur (ici, entre jaune et rouge, puisqu'on a choisi `"YlOrRd"` - il existe d'autres palettes possibles issues de [color brewer](http://colorbrewer2.org/) ou [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)). Enfin, dans la création de la carte, on indique que la couleur de remplissage est fonction de la palette et de la variable créée.
 
 ```{r}
-head(etats@data)
-```
-
-Pour affecter une couleur en fonction d'une variable, nous décidons de tirer ici des valeurs issues d'une variable aléatoire uniforme entre 0 et 1. Ensuite, grâce à la fonction `colorBin()`, nous créons une palette qui permettra d'associer une valeur à une couleur (ici, entre jaune et rouge, puisqu'on a choisi `"YlOrRd"` - il existe d'autres palettes possibles issues de [color brewer](http://colorbrewer2.org/) ou [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)). Enfin, dans la création de la carte, on indique que la couleur de remplissage est fonction de la palette et de la variable créée.
-
-```{r}
-# Création d'une variable aléatoire pour tester
-etats@data$var = runif(nrow(etats@data))
-
 # Création d'une palette affectant une couleur en fonction d'une variable
 palette = colorBin("YlOrRd", domain = etats$var)
 
@@ -425,5 +458,5 @@ Reprendre les données utilisées dans la séance 1. Nous allons travailleur uni
     1. Le faire en fonction de l'année
     1. Représenter la courbe de l'évolution en moyenne
     1. Ajouter à cette courbe l'évolution des pays suivants : "France", "Somalia", "Denmark" (avec une couleur spécifique en fonction du pays)
-1. Représenter sur une carte la valeur du contrôle de la corruption en 2016 pour chaque pays
+1. Représenter sur un graphique d'une part, et sur une carte d'autre part la valeur du contrôle de la corruption en 2016 pour chaque pays
 

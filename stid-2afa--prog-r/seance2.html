@@ -457,6 +457,28 @@ ggplot(df, aes(mean, fct_shuffle(cut))) +
 <pre class="r"><code># Lecture des données spatiales
 json_file &lt;- 'https://datahub.io/core/geo-countries/r/countries.geojson'
 etats = geojson_read(json_file, what = &quot;sp&quot;)</code></pre>
+<p>Dans la variable <code>etats</code>, il y a une table avec les noms des pays et le code ISO associé. C’est cette table qui nous permettra par la suite de mettre une couleur en fonction d’une mesure statistique plus tard (en réalisant une jointure).</p>
+<pre class="r"><code>head(etats@data)</code></pre>
+<p>Pour affecter une couleur en fonction d’une variable, nous décidons de tirer ici des valeurs issues d’une variable aléatoire uniforme entre 0 et 1.</p>
+<pre class="r"><code># Création d'une variable aléatoire pour tester
+etats@data$var = runif(nrow(etats@data))</code></pre>
+<div id="graphique" class="section level3">
+<h3>Graphique</h3>
+<p>A partir de ces données, nous allons pouvoir représenter les pays sur un graphique avec la fonction <code>ggplot()</code>. Pour cela, nous allons devoir modifier la structure des données, avec la fonction <code>fortify()</code>.</p>
+<pre class="r"><code>etats_f = fortify(etats)</code></pre>
+<p>Ensuite, nous pouvons donc créer une représentation graphique des pays.</p>
+<pre class="r"><code>ggplot(etats_f, aes(long, lat, group = group)) +
+  geom_polygon(color = &quot;white&quot;) +
+  theme_void()</code></pre>
+<p>Puisque nous avons une variable, nous pouvons choisir de colorer les pays en fonction de celle-ci automatiquement.</p>
+<pre class="r"><code>etats_fj = etats_f %&gt;%
+  inner_join(etats@data %&gt;% rownames_to_column(&quot;id&quot;), by = &quot;id&quot;)
+ggplot(etats_fj, aes(long, lat, group = group, fill = var)) +
+  geom_polygon(color = &quot;white&quot;) +
+  theme_void()</code></pre>
+</div>
+<div id="carte" class="section level3">
+<h3>Carte</h3>
 <p>Pour créer une carte, on doit réaliser au minimum deux étapes :</p>
 <ol style="list-style-type: decimal">
 <li>la création d’un objet de type carte, avec la fonction <code>leaflet()</code></li>
@@ -471,13 +493,8 @@ carte = leaflet(etats) %&gt;%
 
 # Affichage de la carte
 carte</code></pre>
-<p>Dans la variable <code>etats</code>, il y a une table avec les noms des pays et le code ISO associé. C’est cette table qui nous permettra par la suite de mettre une couleur en fonction d’une mesure statistique plus tard (en réalisant une jointure).</p>
-<pre class="r"><code>head(etats@data)</code></pre>
-<p>Pour affecter une couleur en fonction d’une variable, nous décidons de tirer ici des valeurs issues d’une variable aléatoire uniforme entre 0 et 1. Ensuite, grâce à la fonction <code>colorBin()</code>, nous créons une palette qui permettra d’associer une valeur à une couleur (ici, entre jaune et rouge, puisqu’on a choisi <code>&quot;YlOrRd&quot;</code> - il existe d’autres palettes possibles issues de <a href="http://colorbrewer2.org/">color brewer</a> ou <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">viridis</a>). Enfin, dans la création de la carte, on indique que la couleur de remplissage est fonction de la palette et de la variable créée.</p>
-<pre class="r"><code># Création d'une variable aléatoire pour tester
-etats@data$var = runif(nrow(etats@data))
-
-# Création d'une palette affectant une couleur en fonction d'une variable
+<p>Grâce à la fonction <code>colorBin()</code>, nous créons une palette qui permettra d’associer une valeur à une couleur (ici, entre jaune et rouge, puisqu’on a choisi <code>&quot;YlOrRd&quot;</code> - il existe d’autres palettes possibles issues de <a href="http://colorbrewer2.org/">color brewer</a> ou <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">viridis</a>). Enfin, dans la création de la carte, on indique que la couleur de remplissage est fonction de la palette et de la variable créée.</p>
+<pre class="r"><code># Création d'une palette affectant une couleur en fonction d'une variable
 palette = colorBin(&quot;YlOrRd&quot;, domain = etats$var)
 
 # Création de la carte choroplèthe
@@ -510,6 +527,7 @@ carte3 = leaflet(etats) %&gt;%
 # Affichage de la carte
 carte3</code></pre>
 </div>
+</div>
 <div id="a-faire" class="section level2">
 <h2>A faire</h2>
 <p>Reprendre les données utilisées dans la séance 1. Nous allons travailleur uniquement sur les valeurs estimées (<em>i.e.</em> <code>TypeCode</code> égal à <code>&quot;EST&quot;</code>).</p>
@@ -531,7 +549,7 @@ carte3</code></pre>
 <li>Représenter la courbe de l’évolution en moyenne</li>
 <li>Ajouter à cette courbe l’évolution des pays suivants : “France”, “Somalia”, “Denmark” (avec une couleur spécifique en fonction du pays)</li>
 </ol></li>
-<li>Représenter sur une carte la valeur du contrôle de la corruption en 2016 pour chaque pays</li>
+<li>Représenter sur un graphique d’une part, et sur une carte d’autre part la valeur du contrôle de la corruption en 2016 pour chaque pays</li>
 </ol>
 </div>
 
