@@ -1,0 +1,62 @@
+---
+title: "Programmation, fonctions et listes"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## A faire
+
+1. Ecrire le code qui permet de récupérer l'ensemble des personnages dans une seule liste
+```{r}
+people = pers$results
+```
+1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes
+```{r}
+
+```
+1. Modifier la liste des planètes pour avoir une liste de numéros de films, plutôt que des url
+1. Faire de même pour les planètes, espèces, véhicules et vaisseaux
+    - Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci
+```{r}
+getNumbers <- function(v) {
+  if (is_empty(v)) return (NULL)
+  str_split(v, "/") %>% map(tail, 2) %>% map(head, 1) %>% as.numeric()
+}
+people %>%
+  map(function(e) {
+    for (att in c("homeworld", "films", "species", "vehicles", "starships")) {
+        e[[att]] = getNumbers(e[[att]])
+    }
+    return (e)
+  }) -> people2
+```
+1. Créer un `tibble()` avec comme colonnes 
+    - le nom
+    - le sexe
+    - la taille
+    - la masse
+    - la couleur des yeux
+    - la couleur des cheveux
+    - la couleur de la peau 
+    - l'année de naissance
+    - le nombre de films
+```{r}
+people2 %>%
+  map(function(e) {
+    e$nfilms = length(e$films)
+    return(t(e[c("name", "gender", "height", "mass", "hair_color", "skin_color", "eye_color", "birth_year", "nfilms")]))
+  }) %>%
+  map_dfr(~ data.frame(.x))
+```
+    
+1. 
+

@@ -2,12 +2,13 @@
 
 - DUT STID 2ème année (en alternance)
     - [Programmation avec R](stid-2afa--prog-r/)
+    - [Recherche Opérationnelle]()
     - [Travaux de fin d'études](stid-2afa--tfe)
     
 <!--
+
 - DUT STID 1ère année
     - [Exploitation de données](exploitation-donnees)
-
 - LP Santé
     - [R avancé](info-dec-sante/)
 - LP Data-Mining

@@ -2,7 +2,7 @@
 
 1. [Importation et interrogation de données](seance1.html)
 1. [Visualisation de données](seance2.html)
-1. [Programmation de fonctions et listes](seance3.html)
+1. [Programmation, fonctions et listes](seance3.html)
 1. [Automatisation de scripts et récapitulatif](seance4.html)
 1. [TP noté 1](tpnote1.html)
 1. [Tableau de bord statique](seance5.html)

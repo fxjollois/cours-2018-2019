@@ -1,0 +1,335 @@
+---
+title: "Programmation, fonctions et listes"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## Rappel de programmation
+
+Ici, nous allons voir rapidement quelques rappels de programmation classique, avec les traitements itératifs et conditionnels. 
+
+### Traitement conditionnel
+
+Nous parlons de traitement conditionnel quand nous devons exécuter une (ou plusieurs) commande(s) si une condition est vraie. Nous utilisons, comme dans tous les langages, le mot-clé `if`, comme ci-dessous. Bien évidemment, la condition doit renvoyer `TRUE` ou `FALSE` (voire 1 ou 0, mais pas autre chose).
+
+```{r}
+if (condition) {
+  # commandes à exécuter si la condition est vraie
+}
+```
+
+S'il y a des commandes à réaliser lorsque la condition est fausse, nous devons les placer dans la partie `else`.
+
+```{r}
+if (condition) {
+  # commandes à exécuter si la condition est vraie
+} else {
+  # commandes à exécuter si la condition est fausse
+}
+```
+
+Il n'existe malheureusement pas de `elif` en R (contrairement à Python par exemple). Nous devons donc imbriquer ceux-ci.
+
+```{r}
+if (condition1) {
+  # commandes à exécuter si la condition 1 est vraie
+} else {
+  # commandes à exécuter si la condition 1 est fausse
+  if (condition2) {
+    # commandes à exécuter si la condition 2 est vraie
+  } else {
+    # commandes à exécuter si la condition 2 est fausse
+  }
+}
+```
+
+Il existe aussi la fonction `ifelse()`, qui permet de réaliser un test et d'affecter une valeur en fonction de ce test rapidement.
+
+```{r}
+ifelse(condition, valeur_vrai, valeur_faux)
+```
+
+Cette fonction fonctionne aussi sur un vecteur de valeur logique. La valeur à retourner peut être une valeur unique ou un vecteur (idéalement de la même taille que la condition).
+
+```{r}
+ifelse(condition_sur_vecteur, valeur_vrai, valeur_faux)
+```
+
+### Traitement itératif
+
+Comme pour tout langage, il existe aussi la possibilité de faire du traitement itératif, via les boucles `for` et `while`. Pour la première, nous faisons itérer une variable dans une séquence (vecteur de valeurs).
+
+```{r}
+for (var in sequence) {
+  # commandes
+}
+```
+
+Si nous souhaitons naviguer dans les variables d'un `data.frame` ou les éléments d'une liste, nous pouvons utiliser la fonction `seq_along()`, qui renvoie un vecteur de type $1,_ldots,p$, où $p$ est le nombre de variables ou la taille de la liste. L'avantage de cette commande est que si la table est vide (idem pour la liste), elle renvoie un vecteur vide (il n'y a donc pas d'itération).
+
+```{r}
+for (i in seq_along(df)) {
+  # commandes
+}
+```
+
+Enfin, nous disposons de la boucle `while`. Celle-ci doit vérifier une condition qui peut évoluer au fil des itérations (*i.e.* les variables dans le test sont modifiés dans la boucle). Si ce n'est pas le cas, nous tombons dans une boucle infinie... 
+
+```{r}
+while(condition) {
+  # commandes
+}
+```
+
+
+## Fonctions
+
+Comme dans tous langages, il est possible de déclarer des procédures ou des fonctions. Les procédures seront simplement des fonctions qui ne retournent aucun résultat.
+
+### Classique
+
+On stocke la fonction dans une variable, qu'on utilise ensuite pour y faire appel.
+
+```{r}
+procedure = function() {
+  # corps de la procédure
+}
+procedure()
+```
+
+```{r}
+fonction = function() {
+  # corps de la fonction
+  return(valeur)
+}
+fonction()
+```
+
+### Paramètre
+
+Bien évidemment, il est possible de déclarer un paramètre (voire même plusieurs). Nous n'avons pas de type à déclarer, les tests devront être fait dans la fonction pour la rendre plus sûre.
+
+```{r}
+fonction = function(parametre) {
+  # corps de la fonction
+  return(valeur)
+}
+fonction(valeur)
+```
+
+### Valeur par défaut pour un paramètre
+
+Il est possible de définir une valeur par déaut pour un paramètre. Si, lors de l'appel, nous ne définissons pas de valeur pour celui-ci, il aura donc la valeur définie.
+
+```{r}
+fonction = function(parametre = valeur) {
+  # corps de la fonction
+  return(valeur)
+}
+fonction(valeur)
+fonction()
+```
+
+### Paramètres nommés
+
+Lorsqu'on appelle une fonction, il est possible de nommer ou non les paramètres. Si on les nomme, on peut donc les lister dans l'ordre que l'on souhaite. Ceci est souvent utile pour rendre un code propre et lisible.
+
+```{r}
+fonction = function(par1, par2) {
+  # corps de la fonction
+  return(valeur)
+}
+fonction(val1, val2)
+fonction(par1 = val1, par2 = val2)
+fonction(par2 = val2, par1 = val1)
+fonction(par2 = val2, val1)
+```
+
+### Paramètres passés dans une sous-fonction
+
+Pour laisser la possibilité de passer des paramètres à une sous fonction lors de l'appel d'une fonction, il existe le *paramètre* `"..."`. Cela permet de dire que tout ce qui est ajouté à l'appel comme paramètres non connus de la fonction de départ, est envoyé à la sous fonction. On ne peut pas dissocier les éléments pour plusieurs sous fonctions.
+
+```{r}
+fonction = function(parametre, ...) {
+  # corps de la fonction
+  valeur = autre_fonction(...)
+  return(valeur)
+}
+```
+
+## Listes
+
+Avec l'avènement des données *nouvelles*, il devient difficile parfois de les stocker dans une structure classique (objets décrits par des variables). Pour résoudre ce problème, nous faisons de plus en plus appel à des structures de type liste.
+
+### Création
+
+Une liste peut être créée vide ou avec des éléments. Ceux-ci peuvent être de nature différente (vecteur, table, voire liste). De même, ceux-ci peuvent aussi être nommés éventuellement.
+
+```{r}
+list()
+list(1:10, head(LETTERS), head(mtcars))
+list(v = 1:10, lettres = head(LETTERS), mt = head(mtcars))
+```
+
+```{r}
+l = list(v = 1:10, lettres = head(LETTERS), mt = head(mtcars))
+str(l)
+```
+
+### Manipulation
+
+Pour accéder à un élément d'une liste, on utilise soit son nom (s'il existe), soit son indice avec  `[[]]`.
+
+```{r}
+l$v
+l[[1]]
+```
+
+Pour avoir une liste restreinte (même avec un seul élément, cela reste une liste).
+
+```{r}
+l[1]
+l[1:2]
+```
+
+On peut définir (ou modifier) un élément de la liste en utilisant son nom.
+
+```{r}
+l$z = 123456
+str(l)
+```
+
+On peut aussi utiliser son indice, et comme dans l'exemple précédent, ajouter un nouvel élément.
+
+```{r}
+l[[length(l) + 1]] = "nouvel élément"
+str(l)
+```
+
+### A partir de JSON
+
+Le format liste correspond parfaitement au format JSON utilisé dans certaines bases de données, et surtout dans beaucoup d'API maintenant. Nous allons ici utiliser comme données les personnages de Starwars, récupérées sur [swapi.co](https://swapi.co/).
+
+```{r}
+pers = jsonlite::fromJSON("https://swapi.co/api/people/", simplifyVector = FALSE)
+str(pers, max.level = 2)
+```
+
+Dans cette liste, on a des informations (il y a 87 personnages recensés par exemple). Nous avons ici dans l'objet `results` les 10 premiers.
+
+```{r}
+pers$results[[1]]
+pers$results[[1]]$name
+pers$results[[1]]$films
+```
+
+### Avec `split()`
+
+La commande `split()` permet de découper un `data.frame` selon un vecteur de même dimension que le nombre de ligne la table.
+
+```{r}
+split(mtcars, mtcars$cyl)
+mtcars %>% split(.$cyl)   # avec syntaxe magrittr
+```
+
+
+## Fonctions spécifiques
+
+### `apply()`, `tapply()`, `lapply()`
+
+Ces trois fonctions permettent d'appliquer une fonction (de type moyenne ou autre) sur respectivement une table, un vecteur ou un liste.
+
+La fonction `apply()` exécute une même fonction sur les lignes (1) ou les colonnes (2) d'une table.
+
+```{r}
+apply(mtcars, 2, mean)
+apply(mtcars, 1, sum)
+```
+
+La fonction `tapply()` découpe un vecteur en fonction des modalités d'un autre vecteur, et applique sur chaque groupe la fonction donnée.
+
+```{r}
+tapply(mtcars$mpg, mtcars$cyl, mean)
+```
+
+En combinant les deux fonctions ci-dessus, il est possible de faire un calcul sur plusieurs variables pour chaque modalité d'un vecteur.
+
+```{r}
+apply(mtcars[,c("mpg", "hp", "disp")], 2, tapply, mtcars$cyl, mean)
+```
+
+La fonction `lapply()` applique elle une fonction sur chaque élément d'une liste. La fonction `sapply()` fait la même chose, mais essaie de transformer le résultat en matrice à la fin, si cela est possible. Les résultats peuvent donc avoir une forme différente en fonction des retours de la fonction, ce qui peut être préjudiciable dans un contexte de mise en production de code.
+
+```{r}
+lapply(mtcars, mean)
+sapply(mtcars, mean)
+```
+
+```{r}
+lapply(
+  pers$results, 
+  function(e) return(c(Nom = e$name, Sexe = e$gender))
+)
+sapply(
+  pers$results, 
+  function(e) return(c(Nom = e$name, Sexe = e$gender))
+)
+```
+
+### package `purrr`
+
+Le package [`purrr`](https://purrr.tidyverse.org/) (dans le `tidyverse`) fournit des fonctions intéressantes pour le travail sur des listes, en particulier, `map()` et ses dérivées de type `map_xxx()`. Celles-ci permettent de récupérer des sous-éléments dans la liste, soit sous forme de liste (avec `map()`), soit sous la forme d'un vecteur (`map_chr()`, `map_int()`, ...) ou d'un data frame (`map_dfr()`).
+
+
+```{r}
+map(pers$results, "name")
+pers$results %>% map("name")
+pers$results %>% map_chr("name")
+pers$results %>% map(~ paste(.x$name, "-", .x$gender))
+pers$results %>% map(function(e) return(c(e$name, e$gender)))
+pers$results %>%
+  map_dfr(~ tibble(Name = .x$name, Gender = .x$gender))
+pers$results %>% 
+  map("vehicles") %>%
+  map_if(function(e) return(is_empty(e$vehicles)), 
+         function(e) { e$vehicles = NULL; return(e); }) 
+```
+
+En combinant ces fonctions avec la fonction `lm()` permettant de faire un modèle linéaire, on peut réaliser des calculs automatiques intéressants, en ayant un résultat directement lisible.
+
+```{r}
+mtcars %>%
+  split(.$cyl) %>%
+  map(~ lm(mpg ~ wt, data = .x)) %>%
+  map_dfr(~ as.data.frame(t(as.matrix(coef(.)))), .id = "cyl")
+```
+
+
+## A faire
+
+1. Ecrire le code qui permet de récupérer l'ensemble des personnages dans une seule liste
+1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes
+1. Modifier la liste des planètes pour avoir une liste de numéros de films, plutôt que des url
+1. Faire de même pour les planètes, espèces, véhicules et vaisseaux
+    - Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci
+1. Créer un `tibble()` avec comme colonnes 
+    - le nom
+    - le sexe
+    - la taille
+    - la masse
+    - la couleur des yeux
+    - la couleur des cheveux
+    - la couleur de la peau 
+    - l'année de naissance
+    - le nombre de films
+
+

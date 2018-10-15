@@ -1,0 +1,15 @@
+---
+title: "Untitled"
+author: "FX Jollois"
+date: "8 octobre 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+Données ouvertes sur [openaq](https://openaq.org/)
+
+1. Récupérer la liste des villes 
