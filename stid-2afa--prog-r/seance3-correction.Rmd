@@ -17,27 +17,56 @@ knitr::opts_chunk$set(eval = FALSE)
 
 1. Ecrire le code qui permet de récupérer l'ensemble des personnages dans une seule liste
 ```{r}
+pers = jsonlite::fromJSON("https://swapi.co/api/people/", simplifyVector = FALSE)
 people = pers$results
+while(!is.null(pers[["next"]])) {
+  pers = jsonlite::fromJSON(pers[["next"]], simplifyVector = FALSE)
+  people = c(people, pers$results)
+}
+length(people)
 ```
-1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes
+1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes, en créant une fonction
 ```{r}
-
+getList <- function(type) {
+  url = paste0("https://swapi.co/api/", type, "/")
+  res = jsonlite::fromJSON(url, simplifyVector = FALSE)
+  lis = res$results
+  while (!is.null(res[["next"]])) {
+    res = jsonlite::fromJSON(res[["next"]], simplifyVector = FALSE)
+    lis = c(lis, res$results)
+  }
+  return(lis)
+}
+persos = getList("people")
+films = getList("films")
+especes = getList("species")
+vehicules = getList("vehicles")
+vaisseaux = getList("starships")
+planetes = getList("planets")
 ```
-1. Modifier la liste des planètes pour avoir une liste de numéros de films, plutôt que des url
+1. Modifier la liste des planètes dans la liste des personnages pour avoir une liste de numéros de films, plutôt que des url
+```{r}
+persos = persos %>%
+  map(function(e) {
+    e$films = str_split(e$films, "/") %>% map_chr(6) %>% as.numeric()
+    return(e)
+  })
+persos %>% map("films")
+```
 1. Faire de même pour les planètes, espèces, véhicules et vaisseaux
     - Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci
 ```{r}
 getNumbers <- function(v) {
   if (is_empty(v)) return (NULL)
-  str_split(v, "/") %>% map(tail, 2) %>% map(head, 1) %>% as.numeric()
+  str_split(v, "/") %>% map_chr(6) %>% as.numeric()
 }
-people %>%
+persos %>%
   map(function(e) {
-    for (att in c("homeworld", "films", "species", "vehicles", "starships")) {
+    for (att in c("homeworld", "species", "vehicles", "starships")) {
         e[[att]] = getNumbers(e[[att]])
     }
     return (e)
-  }) -> people2
+  }) -> persos
 ```
 1. Créer un `tibble()` avec comme colonnes 
     - le nom
@@ -50,13 +79,11 @@ people %>%
     - l'année de naissance
     - le nombre de films
 ```{r}
-people2 %>%
+persos %>%
   map(function(e) {
     e$nfilms = length(e$films)
     return(t(e[c("name", "gender", "height", "mass", "hair_color", "skin_color", "eye_color", "birth_year", "nfilms")]))
   }) %>%
   map_dfr(~ data.frame(.x))
 ```
-    
-1. 
 

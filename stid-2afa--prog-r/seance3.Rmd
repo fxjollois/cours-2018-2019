@@ -317,8 +317,8 @@ mtcars %>%
 ## A faire
 
 1. Ecrire le code qui permet de récupérer l'ensemble des personnages dans une seule liste
-1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes
-1. Modifier la liste des planètes pour avoir une liste de numéros de films, plutôt que des url
+1. Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes, en créant une fonction
+1. Modifier la liste des planètes dans la liste des personnages  pour avoir une liste de numéros de films, plutôt que des url
 1. Faire de même pour les planètes, espèces, véhicules et vaisseaux
     - Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci
 1. Créer un `tibble()` avec comme colonnes 

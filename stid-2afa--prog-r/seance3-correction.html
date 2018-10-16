@@ -223,209 +223,64 @@ div.tocify {
 </div>
 
 
-<div id="rappel-de-programmation" class="section level2">
-<h2>Rappel de programmation</h2>
-<p>Ici, nous allons voir rapidement quelques rappels de programmation classique, avec les traitements itératifs et conditionnels.</p>
-<div id="traitement-conditionnel" class="section level3">
-<h3>Traitement conditionnel</h3>
-<p>Nous parlons de traitement conditionnel quand nous devons exécuter une (ou plusieurs) commande(s) si une condition est vraie. Nous utilisons, comme dans tous les langages, le mot-clé <code>if</code>, comme ci-dessous. Bien évidemment, la condition doit renvoyer <code>TRUE</code> ou <code>FALSE</code> (voire 1 ou 0, mais pas autre chose).</p>
-<pre class="r"><code>if (condition) {
-  # commandes à exécuter si la condition est vraie
-}</code></pre>
-<p>S’il y a des commandes à réaliser lorsque la condition est fausse, nous devons les placer dans la partie <code>else</code>.</p>
-<pre class="r"><code>if (condition) {
-  # commandes à exécuter si la condition est vraie
-} else {
-  # commandes à exécuter si la condition est fausse
-}</code></pre>
-<p>Il n’existe malheureusement pas de <code>elif</code> en R (contrairement à Python par exemple). Nous devons donc imbriquer ceux-ci.</p>
-<pre class="r"><code>if (condition1) {
-  # commandes à exécuter si la condition 1 est vraie
-} else {
-  # commandes à exécuter si la condition 1 est fausse
-  if (condition2) {
-    # commandes à exécuter si la condition 2 est vraie
-  } else {
-    # commandes à exécuter si la condition 2 est fausse
-  }
-}</code></pre>
-<p>Il existe aussi la fonction <code>ifelse()</code>, qui permet de réaliser un test et d’affecter une valeur en fonction de ce test rapidement.</p>
-<pre class="r"><code>ifelse(condition, valeur_vrai, valeur_faux)</code></pre>
-<p>Cette fonction fonctionne aussi sur un vecteur de valeur logique. La valeur à retourner peut être une valeur unique ou un vecteur (idéalement de la même taille que la condition).</p>
-<pre class="r"><code>ifelse(condition_sur_vecteur, valeur_vrai, valeur_faux)</code></pre>
-</div>
-<div id="traitement-iteratif" class="section level3">
-<h3>Traitement itératif</h3>
-<p>Comme pour tout langage, il existe aussi la possibilité de faire du traitement itératif, via les boucles <code>for</code> et <code>while</code>. Pour la première, nous faisons itérer une variable dans une séquence (vecteur de valeurs).</p>
-<pre class="r"><code>for (var in sequence) {
-  # commandes
-}</code></pre>
-<p>Si nous souhaitons naviguer dans les variables d’un <code>data.frame</code> ou les éléments d’une liste, nous pouvons utiliser la fonction <code>seq_along()</code>, qui renvoie un vecteur de type <span class="math inline">\(1,_ldots,p\)</span>, où <span class="math inline">\(p\)</span> est le nombre de variables ou la taille de la liste. L’avantage de cette commande est que si la table est vide (idem pour la liste), elle renvoie un vecteur vide (il n’y a donc pas d’itération).</p>
-<pre class="r"><code>for (i in seq_along(df)) {
-  # commandes
-}</code></pre>
-<p>Enfin, nous disposons de la boucle <code>while</code>. Celle-ci doit vérifier une condition qui peut évoluer au fil des itérations (<em>i.e.</em> les variables dans le test sont modifiés dans la boucle). Si ce n’est pas le cas, nous tombons dans une boucle infinie…</p>
-<pre class="r"><code>while(condition) {
-  # commandes
-}</code></pre>
-</div>
-</div>
-<div id="fonctions" class="section level2">
-<h2>Fonctions</h2>
-<p>Comme dans tous langages, il est possible de déclarer des procédures ou des fonctions. Les procédures seront simplement des fonctions qui ne retournent aucun résultat.</p>
-<div id="classique" class="section level3">
-<h3>Classique</h3>
-<p>On stocke la fonction dans une variable, qu’on utilise ensuite pour y faire appel.</p>
-<pre class="r"><code>procedure = function() {
-  # corps de la procédure
-}
-procedure()</code></pre>
-<pre class="r"><code>fonction = function() {
-  # corps de la fonction
-  return(valeur)
-}
-fonction()</code></pre>
-</div>
-<div id="parametre" class="section level3">
-<h3>Paramètre</h3>
-<p>Bien évidemment, il est possible de déclarer un paramètre (voire même plusieurs). Nous n’avons pas de type à déclarer, les tests devront être fait dans la fonction pour la rendre plus sûre.</p>
-<pre class="r"><code>fonction = function(parametre) {
-  # corps de la fonction
-  return(valeur)
-}
-fonction(valeur)</code></pre>
-</div>
-<div id="valeur-par-defaut-pour-un-parametre" class="section level3">
-<h3>Valeur par défaut pour un paramètre</h3>
-<p>Il est possible de définir une valeur par déaut pour un paramètre. Si, lors de l’appel, nous ne définissons pas de valeur pour celui-ci, il aura donc la valeur définie.</p>
-<pre class="r"><code>fonction = function(parametre = valeur) {
-  # corps de la fonction
-  return(valeur)
-}
-fonction(valeur)
-fonction()</code></pre>
-</div>
-<div id="parametres-nommes" class="section level3">
-<h3>Paramètres nommés</h3>
-<p>Lorsqu’on appelle une fonction, il est possible de nommer ou non les paramètres. Si on les nomme, on peut donc les lister dans l’ordre que l’on souhaite. Ceci est souvent utile pour rendre un code propre et lisible.</p>
-<pre class="r"><code>fonction = function(par1, par2) {
-  # corps de la fonction
-  return(valeur)
-}
-fonction(val1, val2)
-fonction(par1 = val1, par2 = val2)
-fonction(par2 = val2, par1 = val1)
-fonction(par2 = val2, val1)</code></pre>
-</div>
-<div id="parametres-passes-dans-une-sous-fonction" class="section level3">
-<h3>Paramètres passés dans une sous-fonction</h3>
-<p>Pour laisser la possibilité de passer des paramètres à une sous fonction lors de l’appel d’une fonction, il existe le <em>paramètre</em> <code>&quot;...&quot;</code>. Cela permet de dire que tout ce qui est ajouté à l’appel comme paramètres non connus de la fonction de départ, est envoyé à la sous fonction. On ne peut pas dissocier les éléments pour plusieurs sous fonctions.</p>
-<pre class="r"><code>fonction = function(parametre, ...) {
-  # corps de la fonction
-  valeur = autre_fonction(...)
-  return(valeur)
-}</code></pre>
-</div>
-</div>
-<div id="listes" class="section level2">
-<h2>Listes</h2>
-<p>Avec l’avènement des données <em>nouvelles</em>, il devient difficile parfois de les stocker dans une structure classique (objets décrits par des variables). Pour résoudre ce problème, nous faisons de plus en plus appel à des structures de type liste.</p>
-<div id="creation" class="section level3">
-<h3>Création</h3>
-<p>Une liste peut être créée vide ou avec des éléments. Ceux-ci peuvent être de nature différente (vecteur, table, voire liste). De même, ceux-ci peuvent aussi être nommés éventuellement.</p>
-<pre class="r"><code>list()
-list(1:10, head(LETTERS), head(mtcars))
-list(v = 1:10, lettres = head(LETTERS), mt = head(mtcars))</code></pre>
-<pre class="r"><code>l = list(v = 1:10, lettres = head(LETTERS), mt = head(mtcars))
-str(l)</code></pre>
-</div>
-<div id="manipulation" class="section level3">
-<h3>Manipulation</h3>
-<p>Pour accéder à un élément d’une liste, on utilise soit son nom (s’il existe), soit son indice avec <code>[[]]</code>.</p>
-<pre class="r"><code>l$v
-l[[1]]</code></pre>
-<p>Pour avoir une liste restreinte (même avec un seul élément, cela reste une liste).</p>
-<pre class="r"><code>l[1]
-l[1:2]</code></pre>
-<p>On peut définir (ou modifier) un élément de la liste en utilisant son nom.</p>
-<pre class="r"><code>l$z = 123456
-str(l)</code></pre>
-<p>On peut aussi utiliser son indice, et comme dans l’exemple précédent, ajouter un nouvel élément.</p>
-<pre class="r"><code>l[[length(l) + 1]] = &quot;nouvel élément&quot;
-str(l)</code></pre>
-</div>
-<div id="a-partir-de-json" class="section level3">
-<h3>A partir de JSON</h3>
-<p>Le format liste correspond parfaitement au format JSON utilisé dans certaines bases de données, et surtout dans beaucoup d’API maintenant. Nous allons ici utiliser comme données les personnages de Starwars, récupérées sur <a href="https://swapi.co/">swapi.co</a>.</p>
-<pre class="r"><code>pers = jsonlite::fromJSON(&quot;https://swapi.co/api/people/&quot;, simplifyVector = FALSE)
-str(pers, max.level = 2)</code></pre>
-<p>Dans cette liste, on a des informations (il y a 87 personnages recensés par exemple). Nous avons ici dans l’objet <code>results</code> les 10 premiers.</p>
-<pre class="r"><code>pers$results[[1]]
-pers$results[[1]]$name
-pers$results[[1]]$films</code></pre>
-</div>
-<div id="avec-split" class="section level3">
-<h3>Avec <code>split()</code></h3>
-<p>La commande <code>split()</code> permet de découper un <code>data.frame</code> selon un vecteur de même dimension que le nombre de ligne la table.</p>
-<pre class="r"><code>split(mtcars, mtcars$cyl)
-mtcars %&gt;% split(.$cyl)   # avec syntaxe magrittr</code></pre>
-</div>
-</div>
-<div id="fonctions-specifiques" class="section level2">
-<h2>Fonctions spécifiques</h2>
-<div id="apply-tapply-lapply" class="section level3">
-<h3><code>apply()</code>, <code>tapply()</code>, <code>lapply()</code></h3>
-<p>Ces trois fonctions permettent d’appliquer une fonction (de type moyenne ou autre) sur respectivement une table, un vecteur ou un liste.</p>
-<p>La fonction <code>apply()</code> exécute une même fonction sur les lignes (1) ou les colonnes (2) d’une table.</p>
-<pre class="r"><code>apply(mtcars, 2, mean)
-apply(mtcars, 1, sum)</code></pre>
-<p>La fonction <code>tapply()</code> découpe un vecteur en fonction des modalités d’un autre vecteur, et applique sur chaque groupe la fonction donnée.</p>
-<pre class="r"><code>tapply(mtcars$mpg, mtcars$cyl, mean)</code></pre>
-<p>En combinant les deux fonctions ci-dessus, il est possible de faire un calcul sur plusieurs variables pour chaque modalité d’un vecteur.</p>
-<pre class="r"><code>apply(mtcars[,c(&quot;mpg&quot;, &quot;hp&quot;, &quot;disp&quot;)], 2, tapply, mtcars$cyl, mean)</code></pre>
-<p>La fonction <code>lapply()</code> applique elle une fonction sur chaque élément d’une liste. La fonction <code>sapply()</code> fait la même chose, mais essaie de transformer le résultat en matrice à la fin, si cela est possible. Les résultats peuvent donc avoir une forme différente en fonction des retours de la fonction, ce qui peut être préjudiciable dans un contexte de mise en production de code.</p>
-<pre class="r"><code>lapply(mtcars, mean)
-sapply(mtcars, mean)</code></pre>
-<pre class="r"><code>lapply(
-  pers$results, 
-  function(e) return(c(Nom = e$name, Sexe = e$gender))
-)
-sapply(
-  pers$results, 
-  function(e) return(c(Nom = e$name, Sexe = e$gender))
-)</code></pre>
-</div>
-<div id="package-purrr" class="section level3">
-<h3>package <code>purrr</code></h3>
-<p>Le package <a href="https://purrr.tidyverse.org/"><code>purrr</code></a> (dans le <code>tidyverse</code>) fournit des fonctions intéressantes pour le travail sur des listes, en particulier, <code>map()</code> et ses dérivées de type <code>map_xxx()</code>. Celles-ci permettent de récupérer des sous-éléments dans la liste, soit sous forme de liste (avec <code>map()</code>), soit sous la forme d’un vecteur (<code>map_chr()</code>, <code>map_int()</code>, …) ou d’un data frame (<code>map_dfr()</code>).</p>
-<pre class="r"><code>map(pers$results, &quot;name&quot;)
-pers$results %&gt;% map(&quot;name&quot;)
-pers$results %&gt;% map_chr(&quot;name&quot;)
-pers$results %&gt;% map(~ paste(.x$name, &quot;-&quot;, .x$gender))
-pers$results %&gt;% map(function(e) return(c(e$name, e$gender)))
-pers$results %&gt;%
-  map_dfr(~ tibble(Name = .x$name, Gender = .x$gender))
-pers$results %&gt;% 
-  map(&quot;vehicles&quot;) %&gt;%
-  map_if(function(e) return(is_empty(e$vehicles)), 
-         function(e) { e$vehicles = NULL; return(e); }) </code></pre>
-<p>En combinant ces fonctions avec la fonction <code>lm()</code> permettant de faire un modèle linéaire, on peut réaliser des calculs automatiques intéressants, en ayant un résultat directement lisible.</p>
-<pre class="r"><code>mtcars %&gt;%
-  split(.$cyl) %&gt;%
-  map(~ lm(mpg ~ wt, data = .x)) %&gt;%
-  map_dfr(~ as.data.frame(t(as.matrix(coef(.)))), .id = &quot;cyl&quot;)</code></pre>
-</div>
-</div>
 <div id="a-faire" class="section level2">
 <h2>A faire</h2>
 <ol style="list-style-type: decimal">
 <li>Ecrire le code qui permet de récupérer l’ensemble des personnages dans une seule liste</li>
+</ol>
+<pre class="r"><code>pers = jsonlite::fromJSON(&quot;https://swapi.co/api/people/&quot;, simplifyVector = FALSE)
+people = pers$results
+while(!is.null(pers[[&quot;next&quot;]])) {
+  pers = jsonlite::fromJSON(pers[[&quot;next&quot;]], simplifyVector = FALSE)
+  people = c(people, pers$results)
+}
+length(people)</code></pre>
+<ol style="list-style-type: decimal">
 <li>Utiliser ce code pour faire de même pour les films, les espèces, les véhicules, les vaisseaux et les planètes, en créant une fonction</li>
+</ol>
+<pre class="r"><code>getList &lt;- function(type) {
+  url = paste0(&quot;https://swapi.co/api/&quot;, type, &quot;/&quot;)
+  res = jsonlite::fromJSON(url, simplifyVector = FALSE)
+  lis = res$results
+  while (!is.null(res[[&quot;next&quot;]])) {
+    res = jsonlite::fromJSON(res[[&quot;next&quot;]], simplifyVector = FALSE)
+    lis = c(lis, res$results)
+  }
+  return(lis)
+}
+persos = getList(&quot;people&quot;)
+films = getList(&quot;films&quot;)
+especes = getList(&quot;species&quot;)
+vehicules = getList(&quot;vehicles&quot;)
+vaisseaux = getList(&quot;starships&quot;)
+planetes = getList(&quot;planets&quot;)</code></pre>
+<ol style="list-style-type: decimal">
 <li>Modifier la liste des planètes dans la liste des personnages pour avoir une liste de numéros de films, plutôt que des url</li>
+</ol>
+<pre class="r"><code>persos = persos %&gt;%
+  map(function(e) {
+    e$films = str_split(e$films, &quot;/&quot;) %&gt;% map_chr(6) %&gt;% as.numeric()
+    return(e)
+  })
+persos %&gt;% map(&quot;films&quot;)</code></pre>
+<ol style="list-style-type: decimal">
 <li>Faire de même pour les planètes, espèces, véhicules et vaisseaux
 <ul>
 <li>Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci</li>
 </ul></li>
+</ol>
+<pre class="r"><code>getNumbers &lt;- function(v) {
+  if (is_empty(v)) return (NULL)
+  str_split(v, &quot;/&quot;) %&gt;% map_chr(6) %&gt;% as.numeric()
+}
+persos %&gt;%
+  map(function(e) {
+    for (att in c(&quot;homeworld&quot;, &quot;species&quot;, &quot;vehicles&quot;, &quot;starships&quot;)) {
+        e[[att]] = getNumbers(e[[att]])
+    }
+    return (e)
+  }) -&gt; persos</code></pre>
+<ol style="list-style-type: decimal">
 <li>Créer un <code>tibble()</code> avec comme colonnes
 <ul>
 <li>le nom</li>
@@ -439,6 +294,12 @@ pers$results %&gt;%
 <li>le nombre de films</li>
 </ul></li>
 </ol>
+<pre class="r"><code>persos %&gt;%
+  map(function(e) {
+    e$nfilms = length(e$films)
+    return(t(e[c(&quot;name&quot;, &quot;gender&quot;, &quot;height&quot;, &quot;mass&quot;, &quot;hair_color&quot;, &quot;skin_color&quot;, &quot;eye_color&quot;, &quot;birth_year&quot;, &quot;nfilms&quot;)]))
+  }) %&gt;%
+  map_dfr(~ data.frame(.x))</code></pre>
 </div>
 
 
