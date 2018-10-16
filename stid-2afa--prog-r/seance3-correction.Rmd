@@ -78,12 +78,15 @@ persos %>%
     - la couleur de la peau 
     - l'année de naissance
     - le nombre de films
+    - le nom de son espèce
 ```{r}
 persos %>%
   map(function(e) {
     e$nfilms = length(e$films)
-    return(t(e[c("name", "gender", "height", "mass", "hair_color", "skin_color", "eye_color", "birth_year", "nfilms")]))
+    e$espece = ifelse(!is.null(e$species), especes[[e$species]]$name, NA)
+    return(data.frame(e[c("name", "gender", "height", "mass", "hair_color", "skin_color", "eye_color", "birth_year", "nfilms", "espece")], stringsAsFactors = FALSE))
   }) %>%
-  map_dfr(~ data.frame(.x))
+  map_dfr(~ data.frame(.x)) -> df
+View(df)
 ```
 

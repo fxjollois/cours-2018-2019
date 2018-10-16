@@ -292,14 +292,17 @@ persos %&gt;%
 <li>la couleur de la peau</li>
 <li>l’année de naissance</li>
 <li>le nombre de films</li>
+<li>le nom de son espèce</li>
 </ul></li>
 </ol>
 <pre class="r"><code>persos %&gt;%
   map(function(e) {
     e$nfilms = length(e$films)
-    return(t(e[c(&quot;name&quot;, &quot;gender&quot;, &quot;height&quot;, &quot;mass&quot;, &quot;hair_color&quot;, &quot;skin_color&quot;, &quot;eye_color&quot;, &quot;birth_year&quot;, &quot;nfilms&quot;)]))
+    e$espece = ifelse(!is.null(e$species), especes[[e$species]]$name, NA)
+    return(data.frame(e[c(&quot;name&quot;, &quot;gender&quot;, &quot;height&quot;, &quot;mass&quot;, &quot;hair_color&quot;, &quot;skin_color&quot;, &quot;eye_color&quot;, &quot;birth_year&quot;, &quot;nfilms&quot;, &quot;espece&quot;)], stringsAsFactors = FALSE))
   }) %&gt;%
-  map_dfr(~ data.frame(.x))</code></pre>
+  map_dfr(~ data.frame(.x)) -&gt; df
+View(df)</code></pre>
 </div>
 
 
