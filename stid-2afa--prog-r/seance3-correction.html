@@ -281,6 +281,14 @@ persos %&gt;%
     return (e)
   }) -&gt; persos</code></pre>
 <ol style="list-style-type: decimal">
+<li>Créer une liste de personnages présents dans le film intitulé <code>&quot;A New Hope&quot;</code></li>
+</ol>
+<pre class="r"><code>numero = which(films %&gt;% map_chr(&quot;title&quot;) == &quot;A New Hope&quot;)
+persos %&gt;%
+  keep(function(e) {
+    return(numero %in% e$films)
+  })</code></pre>
+<ol style="list-style-type: decimal">
 <li>Créer un <code>tibble()</code> avec comme colonnes
 <ul>
 <li>le nom</li>

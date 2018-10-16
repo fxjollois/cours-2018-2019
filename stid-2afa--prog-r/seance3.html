@@ -414,6 +414,14 @@ pers$results %&gt;%
   split(.$cyl) %&gt;%
   map(~ lm(mpg ~ wt, data = .x)) %&gt;%
   map_dfr(~ as.data.frame(t(as.matrix(coef(.)))), .id = &quot;cyl&quot;)</code></pre>
+<p>Il est aussi possible de filtrer les éléments d’une liste, soit en les gardant (avec <code>keep()</code>), soit en les excluant (avec <code>discard()</code>). Ces deux fonctions sont opposées.</p>
+<pre class="r"><code>persos %&gt;%
+  keep(~ .x$gender == &quot;male&quot;) %&gt;%
+  map(~ paste(.x$name, .x$gender, sep = &quot; - &quot;))</code></pre>
+<pre class="r"><code>persos %&gt;%
+  discard(~ .x$gender == &quot;male&quot;) %&gt;%
+  map(~ paste(.x$name, .x$gender, sep = &quot; - &quot;))</code></pre>
+<p>Il existe d’autres fonctions très utiles dans ce package pour travailler avec des listes.</p>
 </div>
 </div>
 <div id="a-faire" class="section level2">
@@ -426,6 +434,7 @@ pers$results %&gt;%
 <ul>
 <li>Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci</li>
 </ul></li>
+<li>Créer une liste de personnages présents dans le film intitulé <code>&quot;A New Hope&quot;</code></li>
 <li>Créer un <code>tibble()</code> avec comme colonnes
 <ul>
 <li>le nom</li>

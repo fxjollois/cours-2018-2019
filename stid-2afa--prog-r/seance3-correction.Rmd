@@ -68,6 +68,14 @@ persos %>%
     return (e)
   }) -> persos
 ```
+1. Créer une liste de personnages présents dans le film intitulé `"A New Hope"`
+```{r}
+numero = which(films %>% map_chr("title") == "A New Hope")
+persos %>%
+  keep(function(e) {
+    return(numero %in% e$films)
+  })
+```
 1. Créer un `tibble()` avec comme colonnes 
     - le nom
     - le sexe

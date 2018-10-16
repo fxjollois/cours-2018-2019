@@ -313,6 +313,21 @@ mtcars %>%
   map_dfr(~ as.data.frame(t(as.matrix(coef(.)))), .id = "cyl")
 ```
 
+Il est aussi possible de filtrer les éléments d'une liste, soit en les gardant (avec `keep()`), soit en les excluant (avec `discard()`). Ces deux fonctions sont opposées.
+
+```{r}
+persos %>%
+  keep(~ .x$gender == "male") %>%
+  map(~ paste(.x$name, .x$gender, sep = " - "))
+```
+
+```{r}
+persos %>%
+  discard(~ .x$gender == "male") %>%
+  map(~ paste(.x$name, .x$gender, sep = " - "))
+```
+
+Il existe d'autres fonctions très utiles dans ce package pour travailler avec des listes.
 
 ## A faire
 
@@ -321,6 +336,7 @@ mtcars %>%
 1. Modifier la liste des planètes dans la liste des personnages  pour avoir une liste de numéros de films, plutôt que des url
 1. Faire de même pour les planètes, espèces, véhicules et vaisseaux
     - Pour les personnages ayant des listes vides pour une ou plusieurs catégories, supprimer celles-ci
+1. Créer une liste de personnages présents dans le film intitulé `"A New Hope"`
 1. Créer un `tibble()` avec comme colonnes 
     - le nom
     - le sexe
