@@ -1,8 +1,12 @@
 ---
-title: "Untitled"
-author: "FX Jollois"
-date: "8 octobre 2018"
-output: html_document
+title: "Automatisation de scripts et récapitulatif"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 3
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -10,6 +14,224 @@ knitr::opts_chunk$set(eval = FALSE)
 ```
 
 
-Données ouvertes sur [openaq](https://openaq.org/)
+## Fichiers `.RData`
 
-1. Récupérer la liste des villes 
+Plutôt que de devoir importer plusieurs fois des données, il est possible d'utiliser le format de données `.RData`, qui permet de sauvegarder tout ou partie de l'environnement de travail. Pour cela, nous allons utiliser les fonctions `save()` et `save.image()`  pour sauvegarder, et la fonction `load()` pour charger les variables sauvegardées.
+
+### Sauvegarde de variable(s)
+
+En premier lieu, il est possible de sauvegarder uniquement une variable créée dans un fichier `.RData`. Ci-dessous, nous créons l'objet `a`, qui est une chaîne simple, puis nous la sauvegardons dans le fichier `a.RData`. Enfin, nous la supprimons (et l'affichons pour bien voir qu'elle n'existe plus).
+
+```{r, error=TRUE}
+a = "test de RData"
+print(a)
+save(a, file = "a.RData")
+rm(a)
+print(a)
+```
+
+L'intérêt est donc que la variable `a` est dans le fichier `.RData`, qu'il est possible de charger dans `R` comme suit.
+
+```{r}
+load("a.RData")
+print(a)
+```
+
+```{r, include=FALSE}
+file.remove("a.RData")
+```
+
+Pour sauvegarder plusieurs variables, il faut juste les lister dans la fonction `save()`.
+
+```{r, error=TRUE}
+b = "deuxième test de RData"
+c = 123456789
+save(b, c, file = "bc.RData")
+rm(b, c)
+print(b, c)
+```
+
+Et on les charge de la même façon.
+
+```{r}
+load("bc.RData")
+print(b)
+print(c)
+```
+
+
+### Sauvegarde de l'environnement
+
+Quand on lance la fonction `ls()`, on liste l'ensemble des objets créés dans l'environnement de travail. La fonction `save.image()` va tous les sauvegarder dans un même fichier `.RData`.
+
+```{r}
+ls()
+save.image("env.RData")
+```
+
+Ensuite, nous allons nettoyer l'environnement de travail, en supprimant tous les objets (1ère ligne ci-dessous). Ainsi, en listant les variables avec `ls()`, on s'aperçoit qu'il n'y a plus rien.
+
+```{r}
+rm(list = ls()) # Pour tout supprimer de l'environnement
+ls()
+```
+
+Enfin, toujours avec la fonction `load()`, on charge les variables présentes dans le fichier, qu'on retrouve bien en faisant un `ls()`.
+
+```{r}
+load("env.RData")
+ls()
+```
+
+## Lancement d'un script R
+
+Quand on parle d'automatisation de tâches, surtout dans un cadre de mise en production de reporting ou d'analyse programmés, il est nécessaire de pouvoir lancer un script R à partir de la console. Pour cela, il existe deux moyens de le faire : `Rscript` et `R CMD BATCH`, comme nous allons le voir par la suite.
+
+Imaginons que nous avons un fichier nommé `script1.R` avec le contenu suivant :
+
+```{r}
+cat("Il est", as.character(lubridate::now()), "\n")
+```
+
+Pour avoir accès à la console (ou terminal de commandes) sur le serveur **RStudio**, il faut aller dans le menu *Tools*, puis *terminal* et enfin *New Terminal*.
+
+Pour lancer le script, nous pouvons donc utiliser la commande suivante dans le terminal. Tout ce que R produira comme sortie sera affiché directement dans le terminal, comme vous pouvez le voir lors de l'exécution.
+
+```{bash}
+Rscript script1.R
+```
+
+Une autre façon de faire est de lancer la commande suivante. Ici, les sorties seront redirigées vers un fichier texte, nommé `script1.Rout`, dont le contenu est détaillée ci-après.
+
+```{bash}
+R CMD BATCH script1.R
+```
+
+Pour voir le contenu du fichier `script1.Rout`, vous pouvez soit cliquer dessus, soit lancer la commande `cat script1.Rout` dans le terminal.
+
+```
+R version 3.5.1 (2018-07-02) -- "Feather Spray"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+[Sauvegarde de la session précédente restaurée]
+
+> cat("Il est", as.character(lubridate::now()))
+Il est 2018-10-19 11:04:45> 
+> proc.time()
+utilisateur     système      écoulé 
+      0.452       0.048       0.502 
+```
+
+### Travail en arrière plan
+
+Maintenant, pour une mise en production, nous souhaitons pouvoir lancer le travail en arrière plan et continuer à pouvoir utiliser la console (pour lancer d'autres scripts et/ou d'autres programmes).
+
+Nous allons maintenant écrire le fichier suivant, nommé `script2.R`. Ce programme note l'heure de début, fait une pause entre 1 et 30 secondes, et note l'heure de fin, puis calcule la différence entre les deux moments. Enfin, il sauve les variables dans un fichier nommé `script2.RData`.
+
+Notez la fonction `suppressPackageStartupMessages()`, qui, comme son nom l'indique, permet de supprimer l'affichage de chargement d'une librairie.
+
+```{r}
+suppressPackageStartupMessages(library(lubridate))
+debut = now()
+pause = sample(1:30)[1]
+Sys.sleep(pause)
+fin = now()
+temps = fin - debut
+save.image("script2.RData")
+```
+
+Puisque ce programme peut prendre du temps (moins de 30 secondes), il est donc préférable de le lancer en arrière plan. Pour cela, il faut simplement ajouter le caractère `&` dans la console.
+
+```{bash}
+Rscript script2.r&
+```
+
+Afin de s'assurer que R tourne bien, il est possible d'utiliser la commande `ps` dans le terminal, qui liste les tâches en cours. Vous devriez voir une liste de même type que celle ci-dessous.
+
+```{}
+   PID TTY          TIME CMD
+122678 pts/1    00:00:00 bash
+122729 pts/1    00:00:00 R
+122741 pts/1    00:00:00 ps
+```
+
+## Animation d'un graphique
+
+Le package [gganimate](https://github.com/thomasp85/gganimate) permet de faire des graphiques animés, de type [gapminder](https://www.gapminder.org/tools/#_chart-type=bubbles) (appuyé sur lecture en bas à gauche).
+
+Pour cela, à partir d'un code utilisé pour faire un graphique avec `ggplot2`, il est possible de définir la séquence des images à partir d'une variable avec les fonctions `transition_xxx()`. Dans l'exemple ci-dessous, nous utilisons la variable `cyl` pour faire  évoluer le nuage de points de `mpg` en fonction de `hp`, pour les données `mtcars`.
+
+```{r}
+library(ggplot2)
+library(gganimate)
+
+ggplot(mtcars, aes(hp, mpg)) +
+  geom_point() +
+  labs(title = "{closest_state}") +
+  transition_states(cyl, 
+                    transition_length = 1, 
+                    state_length = 1)
+```
+
+Autre exemple à partir des données `txhousing`, le code suivant permet de générer des positions aléatoires pour chaque ville (qu'on remplacera idéalement par des coordonnées géographiques par exemple). Puis de créer un graphique montrant l'évolution des volumes de ventes immobilières.
+
+```{r}
+xy = txhousing %>%
+  select(city) %>%
+  distinct() %>%
+  mutate(x = runif(n()), y = runif(n()))
+
+tx = txhousing %>%
+  inner_join(xy)
+ggplot(tx, aes(x, y, col = volume, size = volume)) +
+  geom_point() +
+  labs(title = "{frame_time}") +
+  transition_time(date)
+```
+
+
+## A faire
+
+### Données Velib
+
+Nous allons utiliser les données ouvertes Vélib, fournie par la mairie de Paris, et disponible à ces adresses : [stations](https://opendata.paris.fr/explore/dataset/velib-emplacement-des-stations/information/) et [disponibilités](https://opendata.paris.fr/explore/dataset/velib-disponibilite-en-temps-reel/information/).
+
+Pour avoir la liste des stations (ici les 10 premières), nous pouvons utiliser leur API avec le code suivant.
+
+```{r}
+library(jsonlite)
+# stations
+url_stations = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations"
+res_stations = fromJSON(url_stations, simplifyVector = FALSE)
+```
+
+Pour avoir la suite des stations, il faut ajouter `&start=11` pour avoir les 10 suivantes (de la 11ème à la 20ème donc), et ainsi de suite.
+
+Pour avoir les disponibilités de chaque station, nous utilisons une autre adresse (voir ci-dessous).
+
+```{r}
+url_dispos = "https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel"
+res_dispos = jsonlite::fromJSON(url)
+```
+
+### Travail
+
+1. Récupérer la liste des stations
+1. Créer un code permettant de récupérer les disponibilités de chaque station d'un coup
+1. A l'aide du code précédent, réaliser un code récupérant les disponibilités des stations avec un intervalle de quelques minutes
+1. Faire un code s'exécutant pendant un certain temps (idéalement une journée au moins)
+1. Réaliser une carte des stations, avec une animation basée sur la disponibilité des vélibs sur une journée
+
