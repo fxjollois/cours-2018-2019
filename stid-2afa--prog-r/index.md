@@ -4,7 +4,9 @@
 1. [Visualisation de données](seance2.html)
 1. [Programmation, fonctions et listes](seance3.html)
 1. [Automatisation de scripts et récapitulatif](seance4.html)
-1. [TP noté 1](tpnote1.html)
+1. Evaluation 1
+    - <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=motuTZeCNEOC9mhoHTSpT3koJdJ7tCVLohD99orTllhUN05XWEZXS1FLTTdWOFk5M0Y5TTQyNUlaNC4u" target="_blank">QCM noté 1</a> : ce test doit être passé avant 13h30, tout questionnaire posté après ne sera pas évalué 
+    - [TP noté 1](tpnote1.html) 
 1. [Tableau de bord statique](seance5.html)
 1. [Tableau de bord dynamique](seance6.html)
 1. [Application web](seance7.html)

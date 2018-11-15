@@ -1,0 +1,54 @@
+---
+title: "TP noté 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## Données
+
+Nous allons travailler sur les données des [commerces de Paris](https://opendata.paris.fr/explore/dataset/commercesparis/information/) (**attention** : taille du fichier = 49Mo). Vous trouverez le descriptif des variables sur la page d'informations sur les données.
+
+## Importation
+
+Voici le code pour importer les données directement sous R, au format liste (code valable uniquement sur le serveur RStudio).
+
+```{r}
+library(jsonlite)
+comm = fromJSON("/home/jollois/STID 2AFA - Prog Stat R/commercesparis.json",
+                simplifyVector = FALSE)
+
+# On supprime un commerce pour lequel il manque toutes les informations
+comm = comm[-83443]
+```
+
+## Rendu
+
+Vous devez remplir le <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=motuTZeCNEOC9mhoHTSpT3koJdJ7tCVLohD99orTllhUMDYzODI1MFEzWk9BV1U3Nzc4RzZaM1k0VC4u" target="_blank">formulaire suivant</a> pour donner vos réponses.
+
+Le code doit être clair et compréhensible. Essayez de faire un minimum de commande. La notation prendra en compte la qualité de code, en plus de la qualité de la réponse.
+
+## A faire
+
+(points à voir sur le formulaire de réponse) 
+
+- Afficher le premier commerce de la liste
+- Afficher le commerce `86181` (cf champ `ordre`)
+- Afficher le (ou les) commerces situés au `"137 AV VERSAILLES"` (champ `adresse_complete`)
+- Afficher le nombre de commerces de l'avenue de Versailles (le libellé de la voie doit être égal à `"VERSAILLES"`)
+- Créer un `tibble` à partir de la liste de tous les commerces, avec comme colonnes :
+    - `ordre`, `codact`, `libact`, 
+    - `adresse_complete`, `num`, `type_voie`, `libelle_voie`
+    - `iris`, `ilot`, `quartier`, `arro`
+    - longitude et latitude (`xy` - *attention* valeurs `NULL` présentes)
+
+**ATTENTION** : Si vous ne réussissez pas à créer cette table, la [voici](tpnote1-tab.RData) au format `RData`
+
+- Combien y-a-t'il de commerces et de types de commerces par arrondissement ? (à représenter numériquement ET graphiquement)
+- Quelles sont les dix types de commerces les plus présents ? (idem, table + graphique)
+- Réaliser une carte de Paris avec un point pour chaque commerce, avec un fond de carte au choix
+- Représenter l'emplacement des commerces des dix types les plus fréquents graphiquement
+- Utiliser les contours des arrondissements disponible [ici](https://opendata.paris.fr/explore/dataset/arrondissements/map/?location=12,48.85889,2.34692) pour représenter, toujours sur un fond de carte de Paris, le nombre de commerces par arrondissements
+- Représenter graphiquement, pour chaque des dix types de commerces les plus présents, comment ils sont répartis dans les différents arrondissements

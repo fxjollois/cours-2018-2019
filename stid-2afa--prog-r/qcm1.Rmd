@@ -1,0 +1,78 @@
+---
+title: "QCM 1"
+output: html_document
+---
+
+```{r, include = FALSE}
+
+```
+
+<style>
+table {
+  float: right;
+}
+td {
+  width: 100px;
+  font-weight: bold;
+}
+.cellule {
+  border: 1px solid black;
+  width: 300px;
+  height: 30px;
+}
+</style>
+<table>
+  <tr><td>NOM</td><td class = "cellule"></td></tr>
+  <tr><td>PRENOM</td><td class = "cellule"></td></tr>
+</table>
+
+Chaque question vaut 2 points. Vous avez 10 minutes pour répondre au QCM. Entourez clairement la bonne réponse.
+
+<div style = "clear: both;"></div>
+<hr>
+
+
+##### Il est possible d'avoir des noms de lignes dans un `tibble`
+- OUI
+- NON
+
+##### Le package `tidyverse` regroupe en fait un ensemble de librairies dédiées à la *Data Science*
+- OUI
+- NON
+
+##### Un graphique créé avec la fonction `ggplot()` peut se stocker dans une variable
+- OUI
+- NON
+
+##### Quelle fonction permet de passer d'une table large ($n$ individus décrits par $p$ variables) à une table longue ($n*p$ lignes avec nom de l'individu, nom de la variable et sa valeur) ?
+- `spread()`
+- `gather()`
+
+##### Dans une liste, tous les éléments doivent avoir la même structure
+- OUI
+- NON
+
+##### La fonction `map()` du package `purrr` permet d'appliquer une fonction anonyme sur chaque élément d'une liste
+- OUI
+- NON
+
+##### Pour lancer un script en arrière plan, il faut ajouter le caractère `&` après la ligne de commande dans un terminal 
+- OUI
+- NON
+
+##### Quel package permet de réaliser des animations à partir de graphique `ggplot2` ?
+- `ggmovie`
+- `gganimate`
+
+##### Les données JSON sont stockables dans une liste grâce à la fonction `fromJON()` du package `jsonlite`
+- OUI
+- NON
+
+##### Quelle fonction permet de stocker l'ensemble des variables de l'environnement dans un fichier `RData` ?
+- `save()`
+- `save.image()`
+
+
+
+
+

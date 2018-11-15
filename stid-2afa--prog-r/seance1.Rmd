@@ -190,7 +190,7 @@ head(mtcars) %>% mutate(n = row_number(), rang_mpg = min_rank(desc(mpg)))
 
 Si l'on veut garder uniquement la variable nouvellement créée, on utilise `transmute()`.
 
-```{r rtansmute}
+```{r transmute}
 head(mtcars) %>% transmute(ratio = wt / hp)
 ```
 
