@@ -1,0 +1,134 @@
+---
+title: "Evolution CA"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+
+load("../../../../../Downloads/ca.RData")
+f = function(a) { iconv(a, from = "UTF-8", to ="ISO-8859-1") }
+d = function(a) { as.data.frame(lapply(a, function(c) { 
+        if (is.factor(c)) {
+          f(c)
+        } else {
+          c
+        }
+      })) }
+groupe = d(groupe)
+mois = d(mois)
+provenance = d(provenance)
+ca = d(ca)
+ca_evol = d(ca_evol)
+ca_tout = d(ca_tout)
+```
+
+
+# Synthèse
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Evolution mois par mois
+
+```{r}
+tab1 = ca_tout %>%
+  group_by(mois_no) %>%
+  summarise(CA = sum(ca) / 1000000)
+ggplot(tab1, aes(mois_no, CA)) +
+  geom_line() +
+  geom_hline(yintercept = mean(tab1$CA), lty = 3, col = "gray50") +
+  theme_minimal() +
+  labs(x = "Mois", y = "Chiffre d'affaires (M€)")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Comparaison mois par mois (en k€)
+
+```{r}
+tab2 = ca_evol %>%
+  group_by(mois, mois_numero) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  arrange(mois_numero) %>%
+  select(-mois_numero) %>%
+  rename(Mois = mois)
+knitr::kable(tab2, digits = 0)
+```
+
+### Augmentation entre 2003 et 2004
+
+```{r}
+total2003 = ca_tout %>% filter(annee == 2003) %>% summarise(sum(ca))
+total2004 = ca_tout %>% filter(annee == 2004) %>% summarise(sum(ca))
+v = paste(round((total2004 / total2003 - 1) * 100, 2), "%")
+valueBox(v, icon = "fa-arrow-circle-up", color = "green")
+```
+
+
+# Détail {data-orientation=rows}
+
+## Ligne 1
+
+### Département
+
+```{r}
+evol.dpt = ca_evol %>%
+  group_by(departement) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  rename(`Département` = departement)
+knitr::kable(evol.dpt, digits = 0)
+```
+
+### Provenance
+
+```{r}
+evol.prov = ca_evol %>%
+  group_by(provenance) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  rename(Provenance = provenance)
+knitr::kable(evol.prov, digits = 0)
+```
+
+## Ligne 2
+
+### Nombre de département en hausse
+
+```{r}
+gauge(sum(evol.dpt$Evolution > 0), 0, nrow(evol.dpt))
+```
+
+### Département avec la plus grosse évolution
+
+```{r}
+valueBox(evol.dpt$`Département`[which.max(evol.dpt$Evolution)], icon = "fa-level-up")
+```
+
+### Nombre de provenance en hausse
+
+```{r}
+gauge(sum(evol.prov$Evolution > 0), 0, nrow(evol.prov))
+```
+
+### Provenance avec la plus grosse évolution
+
+```{r}
+valueBox(evol.prov$Provenance[which.max(evol.prov$Evolution)], icon = "fa-level-up")
+```

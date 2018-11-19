@@ -1,0 +1,208 @@
+---
+title: "Tableau de bord statique"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+Dans ce TP, nous allons voir comment utiliser la librairie [`flexdashboard`](http://rmarkdown.rstudio.com/flexdashboard) (basée entre autres sur `rmarkdown`) pour générer des tableaux de bords automatisés. Nous allons voir ici quelques éléments de base, vous trouverez beaucoup d'autres informations sur le site indiqué.
+
+
+## Données utilisées
+
+Nous allons donc utiliser les données du *data-mart* utilisé dans le TP6, contenues dans le fichier [`ca.RData`](http://fxjollois.github.io/donnees/ca/ca.RData). Pour ce faire, nous allons utiliser la commande `load()`. Nous vérifions ensuite qu'on a bien toutes les données voulues (en ayant supprimé en premier les objets existants).
+
+```{r}
+rm(list = ls())
+load("ca.RData")
+ls()
+```
+
+## Package `flexdashboard`
+
+### Création d'un premier document
+
+Il est possible de créer un document de base de type `flexdashboard` en suivant les étapes suivantes :
+
+1. Cliquer la création d'un nouveau document 
+1. Choisir **R markdown...**
+1. Choisir ensuite **From Template** et sélection **Flex Dashboard**
+
+Vous devez obtenir un document commençant par 
+
+```{r}
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+...
+```
+
+En cliquant sur **Knit**, vous devez obtenir le [document suivant](seance5/etape1.html). Vous remarquerez qu'il y a de la place pour mettre des graphiques et/ou des tableaux. Nous allons agrémenter ce tableau de bord à l'aide de graphiques et de pastilles d'informations.
+
+#### Modification du titre
+
+En premier lieu, il faut changer le titre du reporting, en mettant par exemple `"Evolution CA"`.
+
+#### Importation de données
+
+Nous allons commencer par importer les données dans ce tableau de bord, grâce au code ci-dessus. Ceci permettra donc de ne pas avoir d'étapes de chargement des fichiers texte et de jointures, pouvant prendre du temps et inutiles puisque les données n'évoluent pas en temps réel.
+
+Vous devez donc introduire le code suivant dans le premier *chunk* (en dessous du chargement de la librairie `flexdashboard`), nommé `setup` et ayant l'option `include=FALSE`. Ceci permettra donc d'avoir les données à disposition, mais que le code ne s'affiche pas dans le document final.
+
+```{r}
+library(tidyverse)
+load("ca.RData")
+```
+
+#### Premier graphique
+
+Pour le premier graphique (`Chart A`), nous allons représenter l'évolution du chiffre d'affaires sur la période 2003-2004, mois par mois. Dans la partie `### Chart A`, nous allons d'abord modifier le titre en `"Evolution mois par mois"`, par exemple (au lieu de `"Chart A"` donc). Ensuite, il faut mettre le code suivant dans le *chunk* correspondant.
+
+```{r, fig.align="center"}
+tab1 = ca_tout %>%
+  group_by(mois_no) %>%
+  summarise(CA = sum(ca) / 1000000)
+ggplot(tab1, aes(mois_no, CA)) +
+  geom_line() +
+  geom_hline(yintercept = mean(tab1$CA), lty = 3, col = "gray50") +
+  theme_minimal() +
+  labs(x = "Mois", y = "Chiffre d'affaires (M€)")
+```
+
+Une fois que vous compilez votre document, vous devez obtenir la [page suivante](seance5/etape2.html). 
+
+#### Deuxième graphique
+
+Dans la fenêtre en haut à gauche (`Chart B`), nous allons placer un tableau, indiquant le chiffre d'affaires pour 2003 et pour 2004, mois par mois. Pour cela, nous allons d'abord renommer le titre en `"Comparaison mois par mois (en k€)"`. Puis nous allons mettre le code suivant dans le *chunk* correspondant.
+
+```{r}
+tab2 = ca_evol %>%
+  group_by(mois, mois_numero) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  arrange(mois_numero) %>%
+  select(-mois_numero) %>%
+  rename(Mois = mois)
+knitr::kable(tab2, digits = 0)
+```
+
+Une fois exécuté, vous obtenez le [document suivant](seance5/etape3.html). Il est possible de naviguer dans le tableau avec la souris pour voir les mois caché.
+
+#### Troisième graphique
+
+Nous allons utiliser ici ce qu'on pourrait appeler une *pastille*, avec la fonction `valueBox()` du package `flexdashboard`. Celle-ci prend en paramètre une valeur à afficher (numérique ou textuelle), une icône, et éventuellement une couleur. Elle affichera aussi le titre (de niveau 3, `###`) mis avant le *chunk* la contenant. 
+
+Il faut tout d'abord remplacer le titre par `"Augmentation entre 2003 et 2004"`. Ensuite, on va placer le code suivant dans le *chunk*.
+
+```{r}
+total2003 = ca_tout %>% filter(annee == 2003) %>% summarise(sum(ca))
+total2004 = ca_tout %>% filter(annee == 2004) %>% summarise(sum(ca))
+v = paste(round((total2004 / total2003 - 1) * 100, 2), "%")
+valueBox(v, icon = "fa-arrow-circle-up", color = "green")
+```
+
+Vous devriez avoir cette [page](seance5/etape4.html) une fois le document `Rmd` compilé.
+
+#### Plusieurs onglets
+
+Il est possible de créer un système d'onglet pour avoir plusieurs pages dans le reporting. Pour cela, vous devez d'abord créer un titre de niveau 1 (`#`) pour la première page (en la nommant par exemple `"Synthèse"`). Ce titre doit être placé avant la ligne `Column...`.
+
+Vous devriez avoir [cette page](seance5/etape5.html) comme résultat.
+
+Créer un deuxième onglet, nommé `"Détail"`, dans lequel nous allons mettre deux tables : une pour les départements et une pour les provenances. Voici les codes des deux *chunks* pour créer ces tableaux.
+
+```{r}
+evol.dpt = ca_evol %>%
+  group_by(departement) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  rename(`Département` = departement)
+knitr::kable(evol.dpt, digits = 0)
+```
+
+```{r}
+evol.prov = ca_evol %>%
+  group_by(provenance) %>%
+  summarise(
+    `2003` = sum(ca2003) / 1000,
+    `2004` = sum(ca2004) / 1000,
+    Evolution = sum(evolution) / 1000
+  ) %>%
+  rename(Provenance = provenance)
+knitr::kable(evol.prov, digits = 0)
+```
+
+Une fois compilé, vous devriez avoir le [tableau de bord](seance5/etape6.html) suivant.
+
+### Modification de l'orientation
+
+Dans la première page, nous avions disposer les différents éléments par colonnes (un élément dans la première et deux dans la deuxième). Il est possible de modifier cela pour une page spécifique. Dans la deuxième, à la suite du titre et sur la même ligne, il est possible d'ajouter `{data-orientation=rows}`. 
+
+Ainsi, le tableau devient [celui-ci](seance5/etape7.html). **Attention**, pour que cela fonctionne, il faut que les graphiques aient un titre de niveau 3 placé devant chacun.
+
+Nous allons maintenant utiliser une jauge, avec la fonction `gauge()` du package `flexdashboard`. Celle-ci prend au minimum en paramètre une valeur, un minimum et un maximum.
+
+Et pour avoir des graphiques prenant toute la page en bas, il faut réaliser deux étapes :
+
+- Insérer un titre de niveau 2 avant les deux *chunks* créés
+- Insérer un nouveau titre de niveau 2 puis les *chunk* contenant le code pour les graphiques
+
+##### Nombre de département en hausse
+```{r}
+gauge(sum(evol.dpt$Evolution > 0), 0, nrow(evol.dpt))
+```
+
+##### Département avec la plus grosse évolution
+```{r}
+valueBox(evol.dpt$Département[which.max(evol.dpt$Evolution)], icon = "fa-level-up")
+```
+
+##### Nombre de provenance en hausse
+```{r}
+gauge(sum(evol.prov$Evolution > 0), 0, nrow(evol.prov))
+```
+
+##### Provenance avec la plus grosse évolution
+```{r}
+valueBox(evol.prov$Provenance[which.max(evol.prov$Evolution)], icon = "fa-level-up")
+```
+
+Au final, nous obtenons donc le [tableau de bord](seance5/etape8.html) suivant.
+
+
+## A faire
+
+Créer un troisième onglet, nommé **Performance**, ayant les informations suivantes :
+
+- trois lignes, chacune pour respectivement les départements, les provenances et les mois
+- chaque ligne avec 3 informations
+    - une `valueBox()` du meilleur
+    - une `gauge()`, représentant la partie du CA représenté par le meilleur obtenu ci-dessus
+    - un *top 3* 
+- chaque ligne doit avoir une hauteur de 200 px. Pour cela, il faut ajouter le paramètre `data-height` à la suite de la déclaration de la nouvelle ligne
+    - vous pouvez regarder les déclarations de colonnes créées automatique dans le premier onglet (cf `Column 1...`)
+
+Vous devriez avoir le [résultat suivant](seance5/correction.html)
+
+
+
+
