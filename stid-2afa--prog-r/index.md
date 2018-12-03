@@ -7,7 +7,7 @@
 1. Evaluation 1
     - <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=motuTZeCNEOC9mhoHTSpT3koJdJ7tCVLohD99orTllhUN05XWEZXS1FLTTdWOFk5M0Y5TTQyNUlaNC4u" target="_blank">QCM noté 1</a> : ce test doit être passé avant 13h30, tout questionnaire posté après ne sera pas évalué 
     - [TP noté 1](tpnote1.html) 
-1. [Tableau de bord web](seance6.html)
+1. [Tableau de bord web](seance5.html)
 1. [TP récapitulatif](recap.html)
 1. [TP noté 2](tpnote2.html)
 
