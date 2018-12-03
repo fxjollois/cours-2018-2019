@@ -2,7 +2,7 @@
 
 - DUT STID 2ème année (en alternance)
     - [Programmation avec R](stid-2afa--prog-r/)
-    - [Recherche Opérationnelle]()
+    - [Recherche Opérationnelle](stid-2afa-ro/))
     - [Travaux de fin d'études](stid-2afa--tfe)
     
 <!--
