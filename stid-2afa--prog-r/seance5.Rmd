@@ -13,7 +13,6 @@ editor_options:
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-
 Le package [`shiny`](https://shiny.rstudio.com/) permet de développer très facilement des applications web à partir de `R`. Grâce à cette librairie, et d'autres librairies `R`, comme [`ggplot2`](http://ggplot2.tidyverse.org/) et [`shinydashboard`](https://rstudio.github.io/shinydashboard/), il est ainsi possible de générer des tableaux de bord, introduisant même des méthodes statistiques approfondies si besoin.
 
 **Note** : installer les trois packages suivant dès maintenant : `shiny`, `shinydashboard` et `tidyverse` (dans lequel est inclus `ggplot2` entre autres).
@@ -884,6 +883,14 @@ Vous devez améliorer le tableau de bord, en réalisant les éléments suivants 
 - Ajouter un choix de taille de TOP (cf `radioButtons()`) : 3, 5 ou 10
     - ce choix sera utiliser pour les trois TOPs
 
+Questions complémentaires :
+
+- Ajouter la possibilité de faire un TOP inversé (pour voir les moins bons)
+- Ajouter la possibilité d’avoir la droite de régression linéaire sur le graphique (cf geom_smooth)
+- Ajouter un graphique d’évolution en base 100 pour la ville, à mettre en dessous du premier graphique, avec l’évolution globale en plus sur le graphique
+- La progression est en fait le pourcentage de la valeur de 2015 par rapport à celle de 2000. Modifier le code pour avoir le delta entre cette valeur et 100%
+    - par exemple : 169% deviendra +69%, et 85% deviendra -15%
+    - modifier les couleurs pour avertir du problème (vert si > 0 et orange sinon)
 
 
 

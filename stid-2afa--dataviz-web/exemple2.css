@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: darkslategray;
+    color: aliceblue;
+    font-family: sans-serif;
+}
+
+header {
+    text-align: center;
+}
+
+li {
+    list-style-type: none;
+    padding: 5px;
+    width: 90%;
+    margin: 5px auto;
+    background-color: darkred;
+}
+li:hover {
+    background-color: orangered;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    text-align: right;
+    width: 100%;
+}
+
+nav {
+    width: 20%;
+    float: left;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: cadetblue;
+}
