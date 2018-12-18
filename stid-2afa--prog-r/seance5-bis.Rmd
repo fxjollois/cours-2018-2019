@@ -13,8 +13,6 @@ editor_options:
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-Pour ce TP, nous allons utiliser une version web de RStudio, accessible à cette adresse : <http://193.51.82.104:2243/>. Vous pourrez vous y connecter avec le login donné en cours.
-
 ## Widgets HTML
 
 L'extension [htmlwidgets](http://www.htmlwidgets.org/) permet d'intégrer des éléments de librairies `JavaScript` dans une application shiny. Nous allons voir ici quatre possibilités :
