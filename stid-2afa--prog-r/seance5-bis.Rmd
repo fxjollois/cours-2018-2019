@@ -336,7 +336,7 @@ shinyApp(
 
 ### Carte à partir de données `GeoJSON`
 
-Le format  [`GeoJSON`](http://geojson.org/) commence à devenir un standard pour définir des éléments géographiques, telles que des zones, afin de les utiliser dans des logiciels pour réaliser des cartes dites [**choroplèthes**](https://fr.wikipedia.org/wiki/Carte_choropl%C3%A8the). Nous avons à notre disposition sur cette [page](http://catalog.opendata.city/dataset/texas-cities-polygon/resource/15f90106-372f-4128-890b-e31351152e23) un fichier de ce type regroupant toutes villes du Texas (voici le [fichier en question](htmlwidgets/texas-city.geojson)). Notre code devient le suivant pour afficher ces différentes zones.
+Le format  [`GeoJSON`](http://geojson.org/) commence à devenir un standard pour définir des éléments géographiques, telles que des zones, afin de les utiliser dans des logiciels pour réaliser des cartes dites [**choroplèthes**](https://fr.wikipedia.org/wiki/Carte_choropl%C3%A8the). Nous avons à notre disposition sur cette [page](http://catalog.opendata.city/dataset/texas-cities-polygon/resource/15f90106-372f-4128-890b-e31351152e23) un fichier de ce type regroupant toutes villes du Texas (voici le [fichier en question](texas-city.geojson)). Notre code devient le suivant pour afficher ces différentes zones.
 
 ```{r leaflet-ex2}
 library(shiny)

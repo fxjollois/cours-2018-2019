@@ -521,7 +521,7 @@ shinyApp(
 </div>
 <div id="carte-a-partir-de-donnees-geojson" class="section level3">
 <h3>Carte à partir de données <code>GeoJSON</code></h3>
-<p>Le format <a href="http://geojson.org/"><code>GeoJSON</code></a> commence à devenir un standard pour définir des éléments géographiques, telles que des zones, afin de les utiliser dans des logiciels pour réaliser des cartes dites <a href="https://fr.wikipedia.org/wiki/Carte_choropl%C3%A8the"><strong>choroplèthes</strong></a>. Nous avons à notre disposition sur cette <a href="http://catalog.opendata.city/dataset/texas-cities-polygon/resource/15f90106-372f-4128-890b-e31351152e23">page</a> un fichier de ce type regroupant toutes villes du Texas (voici le <a href="htmlwidgets/texas-city.geojson">fichier en question</a>). Notre code devient le suivant pour afficher ces différentes zones.</p>
+<p>Le format <a href="http://geojson.org/"><code>GeoJSON</code></a> commence à devenir un standard pour définir des éléments géographiques, telles que des zones, afin de les utiliser dans des logiciels pour réaliser des cartes dites <a href="https://fr.wikipedia.org/wiki/Carte_choropl%C3%A8the"><strong>choroplèthes</strong></a>. Nous avons à notre disposition sur cette <a href="http://catalog.opendata.city/dataset/texas-cities-polygon/resource/15f90106-372f-4128-890b-e31351152e23">page</a> un fichier de ce type regroupant toutes villes du Texas (voici le <a href="texas-city.geojson">fichier en question</a>). Notre code devient le suivant pour afficher ces différentes zones.</p>
 <pre class="r"><code>library(shiny)
 library(shinydashboard)
 library(leaflet)
