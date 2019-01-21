@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "UTF-8">
+		<link rel = "stylesheet" type = "text/css" href = "../remarkjs.css">
+		<!-- link rel = "icon" href = "../favicon.ico" type = "image/x-icon" -->
+	</head>
+	<body>
+		<textarea id="source">
+			<!--
+                Slideshow Markdown pas besoin car sourceUrl plus bas
+            -->
+		</textarea>
+		<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+		<script>
+			var slideshow = remark.create({
+				sourceUrl: 'html-css.md',
+				ratio: "16:9",
+				highlightStyle: 'monokai',
+                highlightLanguage: 'remark',
+                highlightLines: true
+			});
+		</script>
+	</body>
+</html>
