@@ -9,7 +9,7 @@
     - [TP noté 1](tpnote1.html) 
 1. [Tableau de bord web](seance5.html)
     - [Compléments](seance5-bis.html)
-1. [TP récapitulatif](recap.html)
+1. [TP récapitulatif](seance6.html)
 1. [TP noté 2](tpnote2.html)
 
 <!--

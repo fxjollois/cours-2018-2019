@@ -1,0 +1,29 @@
+---
+title: "TP récapitulatif 2"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+A partir du fichier de données [`WHR2018Chapter2OnlineData.xlsx`](WHR2018Chapter2OnlineData.xlsx), vous devez réaliser un tableau de bord permettant de présenter ces données. Celles-ci proviennent de [cette page](http://worldhappiness.report/ed/2018/), présentant un rapport sur le bonheur dans le monde. Les variables sont expliquées dans ce [rapport](https://s3.amazonaws.com/happiness-report/2018/Appendix1ofChapter2.pdf).
+
+Dans ce tableau de bord, nous souhaitons avoir plusieurs parties :
+
+- une vision des données brutes
+- les TOPs 10 et BOTTOMs 5 (sous forme de tableau ou de graphique, au choix), avec la valeur moyenne pour l'année 2017, des différents variables suivantes :
+    - Score de bonheur (`Life Ladder`)
+    - log(PIB/habitant) (`Log GDP per capita`)
+    - Espérance de vie à la naissance (`Healthy life expectancy at birth`)
+    - Sentiment de liberté (`Freedom to make life choices`)
+    - Sentiment de soutien (`Social support`)
+    - Perception de la corruption (`Perceptions of corruption`)
+    - Confiance dans le gouvernement (`Confidence in national government`)
+- l'évolution globale du score de bonheur, avec possibilité d'ajouter un ou plusieurs pays à ce graphique
