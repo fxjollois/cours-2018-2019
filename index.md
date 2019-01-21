@@ -7,11 +7,6 @@
     - [Travaux de fin d'études](stid-2afa--tfe)
     
 <!--
-
-- DUT STID 1ère année
-    - [Exploitation de données](exploitation-donnees)
-- LP Santé
-    - [R avancé](info-dec-sante/)
 - LP Data-Mining
     - [Méthodes avancées](intro-big-data/) : Introduction au Big Data
 - DU Analyste Big Data
