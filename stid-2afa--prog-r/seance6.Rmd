@@ -27,3 +27,4 @@ Dans ce tableau de bord, nous souhaitons avoir plusieurs parties :
     - Perception de la corruption (`Perceptions of corruption`)
     - Confiance dans le gouvernement (`Confidence in national government`)
 - l'évolution globale du score de bonheur, avec possibilité d'ajouter un ou plusieurs pays à ce graphique
+- une carte mondiale représentant le score de bonheur (par exemple à l'aide de ce [site](https://geojson-maps.ash.ms/) pour les données GeoJSON - mais il en existe potentiellement d'autres)
