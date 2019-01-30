@@ -17,6 +17,7 @@ On va commencer par créer un fichier HTML de base, mais vide dans la partie `bo
 - Insérer dans le corps du document une balise `<div>`, dont l'identifiant sera "mondiv", et sans aucun contenu.
 
 - Ensuite, dans l'en-tête, ajouter une balise `<script>`, et mettre le code suivant dedans :
+
 ```
 document.getElementById("mondiv").innerHTML = "J'ajoute du<br>code <b>HTML</b>";
 ```
@@ -24,12 +25,14 @@ document.getElementById("mondiv").innerHTML = "J'ajoute du<br>code <b>HTML</b>";
 - Maintenant, déplacer la balise `<script>` et son contenu après la déclaration du `<div>`. 
 
 - Dans la partie script, mettre le code suivant (en supprimant le précédent) :
+
 ```
 var msg = "Code ajouté";
 document.getElementById("mondiv").innerHTML = msg;
 ```
 
 - Dans une autre balise `<script>` située après la première (et donc distincte), ajoutez ce code :
+
 ```
 age = 37;
 msg = msg + age;
@@ -37,11 +40,13 @@ document.getElementById("mondiv").innerHTML = msg;
 ```
 
 - Entre les deux balises `<script>` (mais en dehors de celles-ci), ajoutez un élément de type button comme ceci :
+
 ```
 <input id = "prenom" value = "Votre prénom" type = "button" onclick = "AffichePrenom();">
 ```
 
 - Enfin, modifiez le code de la deuxième balise avec le code :
+
 ```
 function AffichePrenom() {
   prenom = prompt("Quel est votre prénom ?", "Ecrire votre prénom ici"); 
@@ -54,6 +59,7 @@ function AffichePrenom() {
 - Vous venez d'apprendre à vous servir des événements (`onclick`) et des fonctions
 
 - Remplacez le contenu de la balise `<body>` par :
+
 ```
 <script>
 function conversion() {
@@ -87,6 +93,7 @@ function conversion() {
 - Vous venez de voir comment se servir d'un formulaire et d'un tableau
 
 - Remplacez le code de la fonction `conversion()` (après la récupération du montant en euro) par :
+
 ```
 if (isNaN(eu)) {
   alert("Entrer un nombre SVP !");
@@ -105,6 +112,7 @@ else {
 - On peut gérer des alertes assez facilement
 
 - Remplacez tout le contenu de la balise `<body>` par :
+
 ```
 <table id = "montab">
   <tr>
@@ -133,11 +141,13 @@ Taille du tableau : <input id = "taille" type = "text" value = "0">
 - Vous savez maintenant ajouter des lignes à un tableau et vous savez récupérer la taille du tableau (pour ajouter à la fin du tableau, il faut faire un `insertRow()` avec en paramètre la taille du tableau donc
 
 
-## A faire
+##  A faire
 
 Maintenant que vous savez faire un peu de JavaScript, vous allez devoir faire une page HTML permettant le calcul du montant obtenu après un investissement :
 
-- Demander le capital initial, le taux d'intérêt du placement, le nombre d'années prévu (à faire dans un formulaire, éviter le tableau pour cette partie - c'est contre les recommandations HTML5 pour information)
-- Créer la fonction qui va calculer les montants pour chaque année (et donc les gains), mais surtout qui va les ajouter dans le tableau
+- Demander le capital initial, le taux d'intérêt du placement, le nombre d'années prévu (à faire dans un formulaire)
+- Créer la fonction qui va calculer les montants pour chaque année (et donc les gains), mais surtout qui va les ajouter dans un tableau
 - Faires en sorte que la partie résultat ne s'affiche que lorsqu'on demande le calcul
-- Réfléchir à la création d'un diagramme en barres (chaque barre représentant une année, la hauteur représentant la valeur obtenue) à l'aide de balise div
+- Réfléchir à la création d'un diagramme en barres (chaque barre représentant une année, la hauteur représentant la valeur obtenue) à l'aide de balises div
+- Ajouter un bouton de remise à zéro (des valeurs et des résultats)
+
