@@ -77,7 +77,6 @@ function conversion() {
 ```
 - Vous venez de voir comment se servir d'un formulaire et d'un tableau
 - Remplacez le code de la fonction `conversion()` (après la récupération du montant en euro) par :
-
 ```
 if (isNaN(eu)) {
   alert("Entrer un nombre SVP !");
@@ -94,7 +93,6 @@ else {
 ```
 - On peut gérer des alertes assez facilement
 - Remplacez tout le contenu de la balise `<body>` par :
-
 ```
 <table id = "montab">
   <tr>
