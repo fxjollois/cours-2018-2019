@@ -10,7 +10,11 @@
 1. [Tableau de bord web](seance5.html)
     - [Compléments](seance5-bis.html)
 1. [TP récapitulatif](seance6.html)
-1. [TP noté 2](tpnote2.html)
+1. Evaluation 1
+    - <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=motuTZeCNEOC9mhoHTSpT3koJdJ7tCVLohD99orTllhUQ1hFNzU4QjE5UlY4OTVROVgwSzlMVk44WS4u" target="_blank">QCM noté 2</a> : ce test doit être passé avant 13h30, tout questionnaire posté après ne sera pas évalué 
+    - [TP noté 2](tpnote2.html)
+
+
 
 <!--
 
@@ -25,7 +29,7 @@
 
 - [tidyverse](http://tidyverse.org/)
 - [*R for Data Science*](http://r4ds.had.co.nz/), G. Grolemund & H. Wickham
-- [*Grammar of Graphics*](http://www.springer.com/us/book/9780387245447)), Leland Wilkinson
+- [*Grammar of Graphics*](http://www.springer.com/us/book/9780387245447), Leland Wilkinson
 - [Documentation `ggplot2`](http://docs.ggplot2.org/current/)
 - [A Layered Grammar of Graphics](http://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), H. Wickham
 
