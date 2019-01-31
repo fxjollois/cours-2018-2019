@@ -1,0 +1,97 @@
+---
+title: "TP noté 2"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Nous allons travaillé sur les données provenant du package [gapminder](https://github.com/jennybc/gapminder), qui fait suite au travail de [Hans Rosling](https://www.gapminder.org/). Dans ce TP, nous allons construire une application **shiny** permettant de présenter les données et de faire quelques graphiques.
+
+Voici les premières lignes de la table :
+
+```{r data}
+DT::datatable(gapminder::gapminder)
+```
+
+Pour pouvoir l'utiliser, vous pouvez utiliser le code suivant :
+
+```{r use, echo = TRUE, eval = FALSE}
+library(gapminder)
+View(gapminder)
+```
+
+## Structure de l'application
+
+Nous allons travaillé sur une structure initiale de l'application. La voici :
+
+```{r eval = FALSE, echo = TRUE}
+library(shiny)
+library(shinydashboard)
+library(gapminder)
+library(tidyverse)
+
+ui <- dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Espérance de vie", tabName = "evol", icon = icon("chart-line")),
+      menuItem("Données", tabName = "data", icon = icon("table"))
+    )
+  ),
+  dashboardBody(
+    tabItems(
+      tabItem(
+        tabName = "evol",
+        box(title = "Evolution depuis 1952",
+            plotOutput("life"))
+      ),
+      tabItem(
+        tabName = "data"
+      )
+    )
+  ),
+  title = "Gapminder"
+)
+
+server <- function(input, output, session) {
+  output$life = renderPlot({
+    # epsérance de vie médiane depuis 1952
+  })  
+}
+
+shinyApp(ui, server)
+```
+
+
+## Rendu
+
+Vous devez envoyer votre code (en 1 fichier) à l'adresse mail suivante :
+
+    francois-xavier.jollois@parisdescartes.fr
+
+Le message ET le code doivent être clairs et compréhensibles. Essayez de faire un minimum de commande. La notation prendra en compte la qualité de code, en plus de la qualité de la réponse.
+
+## A faire
+
+1. Ajouter le titre "Gapminder" dans l'en-tête du tableau de bord (1 point)
+1. Mettre le tableau de bord en jaune (1 point)
+1. Ajouter un lien, dans le menu de gauche, vers le site [gapminder](https://www.gapminder.org/) (1 point)
+1. Afficher l'évolution de l'espérance de vie médiane dans le monde depuis 1952 dans le graphique `"life"` (2 point)
+1. Ajouter l'espérance de vie moyenne, en prenant en compte la population de chaque pays chaque année (1 point)
+1. Ajouter l'évolution médiane dans chaque continent (1 point)
+1. Ajouter 2 checkboxs (simple) pour indiquer si l'on souhaite (ou non) les 2 ajouts précédents (2 points)
+1. Dans l'onglet dédié, ajouter une boîte (`box()`) qui va contenir les données brutes (1 point)
+1. Afficher les données brutes dans cet onglet (1 point)
+1. Créer un onglet nommé `"Détails"`, dans lequel vous ajouterez une boîte qui contiendra un graphique (1 point)
+1. Dans ce graphique, vous allez réaliser un nuage de points paramétrable (4 points)
+    - `gdpPercap`, `pop` ou `lifeExp` au choix en abcisse et en ordonnée et pour la taille des points
+    - couleur en fonction de `continent` (ou non)
+    - filtre sur `year` (1 année au choix)
+    - filtre sur les pays à afficher (checkbox multiple groupé)
+1. Créer un onglet nommé `"carte"`, dans lequel vous ajouterez une boîte qui contiendra un graphique (1 point)
+1. Afficher la carte du monde avec le choix de l'année à afficher et de l'indice (`gdpPercap`, `pop` ou `lifeExp`) pour la couleur des pays (3 points)
+
