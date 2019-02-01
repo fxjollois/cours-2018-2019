@@ -151,3 +151,9 @@ Maintenant que vous savez faire un peu de JavaScript, vous allez devoir faire un
 - Réfléchir à la création d'un diagramme en barres (chaque barre représentant une année, la hauteur représentant la valeur obtenue) à l'aide de balises div
 - Ajouter un bouton de remise à zéro (des valeurs et des résultats)
 
+Si vous avez fini, réaliser le graphique (ou un autre de type série temportelle) à l'aide de ces différentes :
+
+- [Chart.js](https://www.chartjs.org/)
+- [plotly](https://plot.ly/javascript/)
+- [Google Charts](https://developers.google.com/chart/)
+
