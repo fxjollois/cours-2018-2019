@@ -34,8 +34,8 @@ document.getElementById("mondiv").innerHTML = msg;
 - Dans une autre balise `<script>` située après la première (et donc distincte), ajoutez ce code :
 
 ```
-age = 37;
-msg = msg + age;
+age = 41;
+msg = msg + " : " + age;
 document.getElementById("mondiv").innerHTML = msg;
 ```
 
@@ -63,25 +63,25 @@ function AffichePrenom() {
 ```
 <script>
 function conversion() {
-  //recupération la valeur en euro
-  var eu = document.formu.euro.value;
-  //conversion et arrondi
-  var fr = eu * 6.55957;
-  fr = Math.round(fr * 100) / 100;
+  // recupération la distance en mètres en pieds
+  var metres = document.formu.metres.value;
+  // conversion et arrondi
+  var pieds = metres * 3.28084;
+  pieds = Math.round(pieds * 100) / 100;
   //affichage du résultat
-  document.formu.franc.value = fr;
+  document.formu.pieds.value = pieds;
 }
 </script>
-<h1>Conversion Euro en Franc</h1><hr>
+<h1>Conversion mètres en pieds</h1><hr>
 <form name="formu">
   <table>
     <tr>
-      <td>Valeur en Euros :</td>
-      <td><input name="euro" type="text" size="10"></td>
+      <td>Valeur en mètres :</td>
+      <td><input name="metres" type="text" size="10"></td>
     </tr>
     <tr>
-      <td>Valeur en Francs :</td>
-      <td><input name="franc" type="text" size="10"></td>
+      <td>Valeur en pieds :</td>
+      <td><input name="pieds" type="text" size="10"></td>
     </tr>
     <tr>
       <td colspan="2"><input type="button" value="Convertir" onclick="conversion()"></td>
@@ -92,20 +92,17 @@ function conversion() {
 
 - Vous venez de voir comment se servir d'un formulaire et d'un tableau
 
-- Remplacez le code de la fonction `conversion()` (après la récupération du montant en euro) par :
+- Remplacez le code de la fonction `conversion()` (après la récupération de la distance en mètres) par :
 
 ```
-if (isNaN(eu)) {
+if (isNaN(metres)) {
   alert("Entrer un nombre SVP !");
-  document.formu.euro.value = "";
-  document.formu.franc.value = "";		
+  document.formu.metres.value = "";
+  document.formu.pieds.value = "";		
 }
 else {
   //conversion et arrondi
-  var fr = eu * 6.55957;
-  fr = Math.round(fr * 100) / 100;
-  //affichage du résultat
-  document.formu.franc.value = fr;
+  // ... même code que précédemment
 }
 ```
 
@@ -116,8 +113,9 @@ else {
 ```
 <table id = "montab">
   <tr>
-    <td>Cellule 1</td>
-    <td>Cellule 2</td>
+    <th>Ligne</th>
+    <th>Cellule 1</th>
+    <th>Cellule 2</th>
   </tr>
 </table>
 <input id = "ajout" type = "button" value = "Ajout d'une ligne" onclick = "ajoutligne()";>
@@ -126,11 +124,13 @@ Taille du tableau : <input id = "taille" type = "text" value = "0">
   document.getElementById("taille").value = document.getElementById('montab').rows.length;
   function ajoutligne () {
     var tab = document.getElementById("montab");
-    var row = tab.insertRow(0);
+    var row = tab.insertRow(1); // 1 correspond à insérer après la 1ère ligne
 
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
+    var cell0 = row.insertCell(0);
+    var cell1 = row.insertCell(1);
+    var cell2 = row.insertCell(2);
 
+    cell0.innerHTML = "Ligne " + document.getElementById("taille").value;
     cell1.innerHTML = "Nouvelle cellule 1";
     cell2.innerHTML = "Nouvelle cellule 2";
     document.getElementById("taille").value = document.getElementById('montab').rows.length;
@@ -138,7 +138,7 @@ Taille du tableau : <input id = "taille" type = "text" value = "0">
 </script>
 ```
 
-- Vous savez maintenant ajouter des lignes à un tableau et vous savez récupérer la taille du tableau (pour ajouter à la fin du tableau, il faut faire un `insertRow()` avec en paramètre la taille du tableau donc
+- Vous savez maintenant ajouter des lignes à un tableau et vous savez récupérer la taille du tableau (pour ajouter à la fin du tableau, il faut faire un `insertRow()` avec en paramètre la taille du tableau donc).
 
 
 ##  A faire
