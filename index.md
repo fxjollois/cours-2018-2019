@@ -5,12 +5,12 @@
     - [Dataviz web](stid-2afa--dataviz-web/) (HTML/CSS/JavaScript)
     - [Recherche Opérationnelle](stid-2afa-ro/)
     - [Travaux de fin d'études](stid-2afa--tfe)
+- DU Analyste Big Data
+    - [Introduction à R et MongoDB](du-abd--r-mongodb.html)
     
 <!--
 - LP Data-Mining
     - [Méthodes avancées](intro-big-data/) : Introduction au Big Data
-- DU Analyste Big Data
-    - [Introduction à R](du-abd-r/)
 - DU Dataviz
     - [Initiation à R](du-dataviz/initiation-r.html)
     - [Visualisation avec R](du-dataviz/visualisation-donnees.html)
