@@ -6,7 +6,8 @@
     - [Recherche Opérationnelle](stid-2afa-ro/)
     - [Travaux de fin d'études](stid-2afa--tfe)
 - DU Analyste Big Data
-    - [Introduction à R et MongoDB](du-abd--r-mongodb.html)
+    - [Introduction à R et **MongoDB**](du-abd--r-mongodb.html)
+    - [Introduction à R et **Hadoop**](du-abd--r-hadoop.html) (avec **SparkR**)
     
 <!--
 - LP Data-Mining
