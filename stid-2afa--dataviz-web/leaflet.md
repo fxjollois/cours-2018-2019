@@ -10,32 +10,45 @@ Ce document est basé sur le [tutoriel officiel](https://leafletjs.com/examples/
 
 Pour réaliser une carte avec cette librairie, il faut suivre plusieurs étapes :
 
-1. Ajouter un lien vers la feuille de style fournie par `leaflet` dans l'en-tête de la page:
+- Ajouter un lien vers la feuille de style fournie par `leaflet` dans l'en-tête de la page :
+
 ```
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css">
 ```
-1. Après cette ligne, il faut ajouter un lien vers le script :
+
+- Après cette ligne, il faut ajouter un lien vers le script :
+
 ```
 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 ```
-1. Dans le corps du fichier HTML, il faut créer une `div` qui va accueillir la carte, en lui donnant un identifiant :
+
+- Dans le corps du fichier HTML, il faut créer une `div` qui va accueillir la carte, en lui donnant un identifiant :
+
 ```
 <div id = "mapid"></div>
 ```
-1. Il faut aussi imposer une hauteur à cette `div`, en CSS : 
+
+- Il faut aussi imposer une hauteur à cette `div`, en CSS : 
+
 ```
 #mapid { height: 180px; }
 ```
-1. Enfin, dans un script à exécuter après la définition de la `div`, il réaliser les étapes suivantes
-    1. Créer une variable qui va pointer vers cette carte
+
+- Enfin, dans un script à exécuter après la définition de la `div`, il réaliser les étapes suivantes
+    - Créer une variable qui va pointer vers cette carte
+    
     ```
     var mymap = L.map('mapid');
     ```
-    1. Définir le centre de la carte et le niveau de zoom (ici, l'IUT avec une vision du quartier)
+    
+    - Définir le centre de la carte et le niveau de zoom (ici, l'IUT avec une vision du quartier)
+    
     ```
     mymap.setView([48.8418565, 2.2683], 15);
     ```
-    1. Enfin, on doit indiquer quel fournisseur de tuiles on désire et l'ajouter à la carte (ici, on choisit [OpenStreetMap](https://www.openstreetmap.org))
+    
+    - Enfin, on doit indiquer quel fournisseur de tuiles on désire et l'ajouter à la carte (ici, on choisit [OpenStreetMap](https://www.openstreetmap.org))
+    
     ```
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap);
     ```
@@ -43,7 +56,7 @@ Pour réaliser une carte avec cette librairie, il faut suivre plusieurs étapes 
 Voici donc l'exemple en action. Vous noterez qu'il y a un ajout de référence à OpenStreetMap, avec la licence. Puisque nous utilisons ce service pour les tuiles, il est obligatoire d'y faire référence.
 
 <iframe style="width: 100%; height: 500px"
-        src="http://embed.plnkr.co/BelU4zfd8NWHARM2?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/BelU4zfd8NWHARM2?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
@@ -61,7 +74,7 @@ Dans l'exemple ci-dessous, nous créons les éléments suivants :
 - un polygone représentant approximativement l'IUT avec la fonction `polygon()`
 
 <iframe style="width: 100%; height: 500px"
-        src="http://embed.plnkr.co/69sgEX?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/69sgEX?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
@@ -77,7 +90,7 @@ On peut ajouter des pop-ups sur les éléments précédemment créés (marqueur,
 Il est aussi possible de créer une pop-up seule, en utilisant la fonction `L.popup()`. On doit ainsi définir sa position, son contenu et l'ouvrir au chargement de la carte.
 
 <iframe style="width: 100%; height: 500px"
-        src="http://embed.plnkr.co/pmXm18?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/pmXm18?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
@@ -92,7 +105,7 @@ Il est bien évidemment possible de gérer les événements sur la page (clic su
 Dans l'exemple ci-dessous, lorsque la souris passe au dessus du polygone représentant l'IUT, une pop-up apparaît. On gère aussi la sortie de la souris du polygone (en enlevant la pop-up). De plus, lorsque l'utilisateur clique sur la carte, n'importe où, la même pop-up apparaît avec les coordonnées GPS de la position du clic.
 
 <iframe style="width: 100%; height: 500px"
-        src="http://embed.plnkr.co/WnvjQ3?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/WnvjQ3?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
@@ -106,7 +119,7 @@ Il e st souvent nécessaire de charger les données présentes dans un fichier s
 Dans l'exemple ci-dessous, nous chargeons les contours des arrondissements parisiens. Nous ajoutons pour chaque arrondissement (avec le paramètre `onEachFeature`) une pop-up contenant le nom de l'arrondissement (présent dans le champ `l_ar`). Et nous définissons un style en fonction des propriétés des éléments (ici, différenciation des arrondissements de l'ultra-centre - 1, 2, 3 et 4).
 
 <iframe style="width: 100%; height: 600px"
-        src="http://embed.plnkr.co/o3XKca?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/o3XKca?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
@@ -129,7 +142,7 @@ En se basant sur les notions vu précédemment, sur le [tutoriel sur les cartes 
     - diagramme circulaire dans l'information sur la répartition des types de résidences
 
 <iframe style="width: 100%; height: 800px"
-        src="http://embed.plnkr.co/gR1EdR?show=preview" frameborder="0"
+        src="https://embed.plnkr.co/gR1EdR?show=preview" frameborder="0"
         allowfullscreen="allowfullscreen">
   Loading plunk...
 </iframe>
