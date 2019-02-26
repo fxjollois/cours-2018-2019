@@ -1,0 +1,15 @@
+.interval {
+  fill: lightsteelblue;
+  visibility: hidden;
+}
+
+#graph {
+    float: left;
+}
+
+.anno:hover {
+    stroke: black;
+}
+.info {
+    visibility: hidden;
+}

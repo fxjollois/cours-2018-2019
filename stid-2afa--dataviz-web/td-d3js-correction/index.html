@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="d3.v4.min.js"></script>
+        <script src="d3-legend.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8">
+    </head>
+
+  <body>
+      <h1>Correction du TP sur <code>d3.js</code></h1>
+      <p>Il faut noter que le code ci-dessous fonctionne avec la version 4 de la librairie d3 (la version 5 est sortie depuis).</p>
+      <div >
+          <h2>Ligne</h2>
+          <div id="graph"></div>
+          <form id="buttons">
+              <input type = "radio" name = "choice" value = "0" checked>Aucun<br>
+              <input type = "radio" name = "choice" value = "1">1<br>
+              <input type = "radio" name = "choice" value = "2">2<br>
+              <input type = "radio" name = "choice" value = "3">3<br>
+              <input type = "radio" name = "choice" value = "4">4<br>
+              <input type = "radio" name = "choice" value = "5">5
+          </form>
+          <script src="script.js"></script>
+      </div>
+      <div style = "clear:left;"></div>
+      <div>
+          <h2>Heatmap</h2>
+          <div id="heatmap"></div>
+          <script src="script2.js"></script>
+      </div>    
+  </body>
+</html>
