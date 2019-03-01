@@ -9,6 +9,7 @@
     - [correction](https://fxjollois.github.io/cours-2018-2019/stid-2afa--dataviz-web/td-leaflet-correction/)
 
 - [Exercice HTML, CSS, JS](afaire3)
+    - [début de correction](https://embed.plnkr.co/ZmfKXbFjZF0IyUSBJsmn/)
 
 
 
