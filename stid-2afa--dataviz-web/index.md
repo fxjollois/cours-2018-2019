@@ -5,3 +5,5 @@
     - [Demande suivante](afaire2)
 - [D3.js](d3js)
 - [Leaflet](leaflet)
+
+- [Exercice HTML, CSS, JS](afaire3)
