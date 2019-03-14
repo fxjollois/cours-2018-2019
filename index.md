@@ -10,6 +10,8 @@
     - [Introduction à R et **Hadoop**](du-abd--r-hadoop.html) (avec **SparkR**)
 - Master 1
     - [Analyse de données massives](m1-add-massives/)
+    
+
 <!--
 - LP Data-Mining
     - [Méthodes avancées](intro-big-data/) : Introduction au Big Data
