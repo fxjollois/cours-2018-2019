@@ -6,6 +6,7 @@ Jour 1
 - [Introduction à Python](seance1-intro.html)
     - [correction](seance1-correction.html)
 - [Statistiques avec Python](seance2-stats.html)
+    - [correction](seance2-correction.html)
 
 Jour 2
 - [Visualisation de données avec Python]()
