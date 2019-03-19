@@ -1,0 +1,18 @@
+
+Optimisation linéaire
+
+Résumé :
+– Rappels de programmation linéaire.
+– Implantation efficace de la méthode simplex.
+– Dualité et analyse de sensibilité.
+– Notion et algorithmes de flots, applications.
+
+
+Modélisation en RO
+
+Résumé :
+– Modélisation mathématique d'un problème d'optimisation.
+– Utilisation de langage de modélisation et de solveurs.
+– Modélisation en variables binaires.
+– Etudes de cas par secteurs d'activités.
+– Logiciels : Xpress, Mosel, OPL.
