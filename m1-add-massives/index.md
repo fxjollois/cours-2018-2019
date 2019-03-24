@@ -9,8 +9,8 @@ Jour 1
     - [correction](seance2-correction.html)
 
 Jour 2
-- [Visualisation de données avec Python]()
-- [Cartographie avec Python]()
+- [Visualisation de données avec Python](seance3-visualisation.html)
+- [Cartographie avec Python](seance4-cartographie.html)
 
 Jour 3
 - [Analyse de données avec Python]()
