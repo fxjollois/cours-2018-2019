@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "UTF-8">
+		<link rel = "stylesheet" type = "text/css" href = "../remarkjs-v2.css">
+        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<link rel = "icon" href = "../favicon-graduation-cap.ico" type = "image/x-icon">
+        
+        <!-- pour GeoGebra -->
+        <meta name=viewport content="width=device-width,initial-scale=1">
+        <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+	</head>
+	<body>
+		<textarea id="source">
+			<!--
+                Slideshow Markdown pas besoin car sourceUrl plus bas
+            -->
+		</textarea>
+		<script src="../remark.js"></script>
+		<script>
+			var slideshow = remark.create({
+				sourceUrl: 'seance2.md',
+				ratio: "16:9",
+				highlightStyle: 'monokai',
+                highlightLanguage: 'remark',
+                highlightLines: true
+			});
+            
+            // Setup MathJax
+            MathJax.Hub.Config({
+                "HTML-CSS": { scale: 100, linebreaks: { automatic: true } },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                }
+            });
+            MathJax.Hub.Configured();
+            
+            // pour GeoGebra
+            var ggbApp = new GGBApplet({
+                "material_id":"z6tgyu2p",
+                // "appName": "geometry", 
+                "width": 1000, "height": 500, 
+                // "showToolBar": true, 
+                "showAlgebraInput": true}, true);
+            ggbApp.inject('ggb-lait-creme');
+		</script>
+	</body>
+</html>
