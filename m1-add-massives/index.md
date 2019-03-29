@@ -11,7 +11,7 @@ Jour 2
 - [Cartographie avec Python](seance4-cartographie.html) - [correction](seance4-correction.html)
 
 Jour 3
-- [Analyse de données avec Python](seance4-analyse.html)
+- [Analyse de données avec Python](seance5-analyse.html)
 - [TP noté]()
 
 Jour 4
