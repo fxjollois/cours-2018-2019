@@ -11,8 +11,8 @@ Jour 2
 - [Cartographie avec Python](seance4-cartographie.html) - [correction](seance4-correction.html)
 
 Jour 3
-- [Analyse de données avec Python](seance5-analyse.html)
-- [TP noté]()
+- [Analyse de données avec Python](seance5-analyse.html) - [correction](seance5-correction.html)
+- [TP noté](tpnote1.html)
 
 Jour 4
 - [Connexion à MongoDB, sous Python]()
