@@ -15,8 +15,8 @@ Jour 3
 - [TP noté](tpnote1.html)
 
 Jour 4
-- [Introduction à MongoDB](seance6-slides.html) - [Connexion à MongoDB, sous Python](seance6-mongodb.html)
-- [TP noté]()
+- [Introduction à MongoDB](seance6-slides.html) - [Connexion à MongoDB, sous Python](seance6-mongodb.html) - [correction](seance6-correction.html)
+- [TP noté](tpnote2.html)
 
 Jour 5
 - [Données du projet]()
