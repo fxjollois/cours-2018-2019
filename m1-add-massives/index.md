@@ -19,5 +19,5 @@ Jour 4
 - [TP noté](tpnote2.html)
 
 Jour 5
-- [Données du projet]()
-- [Travail à rendre]()
+- [Données du projet](seance7-donnees-projet.html)
+- [Travail à rendre](sujet-projet.html)
