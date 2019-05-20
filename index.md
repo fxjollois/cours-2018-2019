@@ -10,6 +10,8 @@
 - DU Analyste Big Data
     - [Introduction à R et **MongoDB**](du-abd--r-mongodb.html)
     - [Introduction à R et **Hadoop**](du-abd--r-hadoop.html) (avec **SparkR**)
+- DU Dataviz
+    - [Introduction à Tableau](du-dataviz--tableau)
 - Master 1
     - [Analyse de données massives](m1-add-massives/)
 
