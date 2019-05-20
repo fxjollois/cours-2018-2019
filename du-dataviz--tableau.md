@@ -18,7 +18,7 @@ Dans ce cours, nous allons aborder l'utilisation du logiciel [**Tableau Public**
 version gratuite de **Tableau Software**, outil phare dans le domaine de la **BI** et de
 la **Visualisation de données**.
 
-Dans ce présentation de l'outil, nous allons utiliser les données synthétiques de la production scientifique mondiale de 1996 à 2014 ([lien vers le fichier Excel](reporting/tp5/scimagojr%20all.xlsx) - source : [SCImago Journal & Country Rank](http://www.scimagojr.com/help.php))
+Dans ce présentation de l'outil, nous allons utiliser les données synthétiques de la production scientifique mondiale de 1996 à 2014 ([lien vers le fichier Excel](scimagojr%20all.xlsx) - source : [SCImago Journal & Country Rank](http://www.scimagojr.com/help.php))
 
 Ce fichier comporte les variables suivantes :
 
