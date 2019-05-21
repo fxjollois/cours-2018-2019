@@ -175,18 +175,7 @@ IF ([Year] = [pChoixAnnee]) THEN 1 ELSE 0 END
 		- Idem, on peut recadrer la carte si on le souhaite (toujours dans la feuille)
 	- Ajouter la répartition de la production scientifique des 10 pays les plus productifs
 	- Idem pour l'évolution en base 100 et pour le TOP par année (dans deux plans différents)
-1. Vous devriez avoir à la fin ce [tableau](visualisation-donnees-tableau.twb)
-	- Qui peut s'intégrer dans une page web comme cela par exemple
-
-<div class='tableauPlaceholder' id='viz1495039017400' style='position: relative'><noscript><a href='#'><img alt='Analyse de la production scientifique ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;vi&#47;visualisation-donnees-tableau&#47;Analyse&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='visualisation-donnees-tableau&#47;Analyse' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;vi&#47;visualisation-donnees-tableau&#47;Analyse&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                
-<script type='text/javascript'>                    
-var divElement = document.getElementById('viz1495039017400');                    
-var vizElement = divElement.getElementsByTagName('object')[0];                  
-vizElement.style.width='1020px';vizElement.style.height='1033px';                   
-var scriptElement = document.createElement('script');                   
-scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';  
-vizElement.parentNode.insertBefore(scriptElement, vizElement);                
-</script>
+1. Vous devriez avoir à la fin ce [tableau](https://public.tableau.com/profile/fx.jollois#!/vizhome/visualisation-donnees-tableau/Analyse)
 
 ## A FAIRE
 
