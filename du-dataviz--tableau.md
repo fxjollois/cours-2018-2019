@@ -35,10 +35,10 @@ Ce fichier comporte les variables suivantes :
 Nous allons aborder les points suivants :
 
 1. Importation des données dans **Tableau**
-	- Fichier texte puis choisir le fichier
+	- Fichier Excel puis choisir le fichier
 1. Vérification des données (type particulièrement)
 	- Toutes sont des numériques (symbole `#` au dessus du nom des variables)
-	- Sauf `Country`, avec le symbole <i class="fa fa-world"></i>, qui indique que c'est une variable géographique
+	- Sauf `Country`, avec un symbole représentant une terre, qui indique que c'est une variable géographique
 1. Première **Feuille** et premier tableau : *Production scientifique*
 	- Cliquer sur *Feuille 1* en bas à gauche
 	- Double-cliquer sur `Documents`, dans les **Mesures**
@@ -166,7 +166,7 @@ IF ([Year] = [pChoixAnnee]) THEN 1 ELSE 0 END
 	- Changer le titre et le nom de l'histoire
 	- Glisser/Déplacer le tableau de bord dans le cadre prévu
 	- Double-cliquer sur *Ajouter une légende* pour ajouter un texte présentant le tableau de bord
-	- Cliquer sur *Nouveau plan vierge*
+	- Cliquer sur *Nouveau plan du reportage* > **Vide** (à gauche)
 		- Glisser la carte
 		- Ajouter une légende
 		- Si on souhaite cacher la légende, qui n'a que peu d'intérêt ici, retourner sur la feuille correspondant à la carte
