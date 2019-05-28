@@ -28,7 +28,7 @@ La nourriture d'un troupeau est formé de 3 produits P1, P2 et P3 de prix unitai
 | lipides | 1400 |
 | vitamines A | 1500 |
 
-Le tableau suivant d'ecrit les apports d'une unité de chaque produit en protéines, lipides et de vitamines A.
+Le tableau suivant décrit les apports d'une unité de chaque produit en protéines, lipides et de vitamines A.
 
 | &nbsp; | protéines | lipides | vitamines A |
 |-|-|-|-|
