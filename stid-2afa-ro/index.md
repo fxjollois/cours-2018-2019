@@ -3,6 +3,8 @@
 - [Introduction](seance1.html)
     - [TD](seance1-td)
 
+- [TP](TP.html)
+
 <!--
 Idée de plan
 

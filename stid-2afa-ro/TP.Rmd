@@ -1,0 +1,279 @@
+---
+title: "Programmation linéaire avec R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Nous allons voir dans ce TP l'utilisation de librairies R pour la résolution de programmes linéaires.
+
+## Programme linéaire
+
+### Exemple
+
+Reprenons notre premier exemple : une petite entreprise familiale qui désire fabriquer de la crème glacée et du beurre à partir du lait produit par leurs vaches. 
+
+Les prix sont fixés à 5€ par litre de crème glacée et 4€ par Kg de beurre. Le profit (à maximiser) se calcule donc ainsi :
+
+$$
+Max Z = 5x + 4y
+$$
+
+Nous avons les contraintes suivantes :
+
+- La production hebdomadaire des vaches est de 22 litres ;
+- Pour faire 1 Kg de beurre, il faut 2 litres de lait tandis que pour faire 1 litre de crème glacée, cela exige 3 litres de lait ;
+- On entrepose les produits dans un réfrigérateur qui ne peut contenir plus que 6 litres de crème glacée ;
+- Il faut 1 heure pour produire de 4 litres de crème glacée et 1 Kg de beurre. La famille dispose d’au plus 6 heures par semaine.
+
+$$
+\left(\begin{eqnarray} 
+  3x + 2y & \le & 22 \\
+  x & \le & 6 \\
+  \frac{x}{4} + y & \le & 6 \\ 
+  x, y & \ge & 0
+\end{eqnarray}\right.
+$$
+
+### Librairie [`boot`](https://cran.r-project.org/web/packages/boot/index.html)
+
+Cette librairie est dédiée aux méthodes de [bootstrap](https://fr.wikipedia.org/wiki/Bootstrap_(statistiques)) mais contient aussi une fonction `simplex()` permettant la résolution de problème (simple) de programmation linéaire.
+
+```{r}
+library(boot)
+```
+
+Dans cette fonction, pour notre exemple, nous devons donné trois valeurs :
+
+- un vecteur (`z` ici) contenant les coefficients pour la fonction à maximiser ;
+- une matrice contenant (`A` ici) les coefficients de chaque variable pour chaque contrainte ;
+- un vecteur (`b` ici) contenant les valeurs à ne pas dépasser pour les contraintes.
+
+Il faut notre que les paramètres `A1` et `b1` correspondent à des contraintes de type $\leq$. Il est possible d'indiquer des contraintes de type $\geq$ avec `A2` et `b2`, et des contraintes de type $=$ avec `A3` et `b3`.
+
+```{r}
+z = c(5, 4)
+A = matrix(c(3, 1, 1/4, 2, 0, 1), 3, 2)
+b = c(22, 6, 6)
+result = simplex(
+  a = z,
+  A1 = A,
+  b1 = b,
+  maxi = TRUE
+)
+result$value
+result$soln
+result
+```
+
+### Librairie [`ompr`](https://dirkschumacher.github.io/ompr/)
+
+Cette librairie est beaucoup plus complète et est réellement dédié à la résolution de problème de programmation linéaire. Pour la partie résolution, elle utilise la librairie [`ROI`](http://roi.r-forge.r-project.org/) qui sert d'infrastructure pour les problèmes d'[optimisation](https://fr.wikipedia.org/wiki/Optimisation_(math%C3%A9matiques)) en général. 
+
+```{r}
+library(magrittr)
+library(ompr)
+library(ompr.roi) # interface vers la librairie ROI
+library(ROI)
+library(ROI.plugin.glpk) # un solveur en particulier
+```
+
+La librairie `magrittr` est ici utilisée pour mettre en place des *pipes* qui sont très intéressants dans ce cadre.
+
+On déclare ici les variables (avec les limites connues), puis la fonction objectif, et les contraintes. Nous appliquons directement à la fin la résolution à l'aide du solveur *glpk*.
+
+```{r}
+result <- MILPModel() %>%
+  add_variable(x1, type = "continuous") %>%
+  add_variable(x2, type = "continuous", lb = 0) %>%
+  set_bounds(x1, lb = 0) %>%
+  set_objective(5 * x1 + 4 * x2, "max") %>%
+  add_constraint(3 * x1 + 2 * x2 <= 22) %>%
+  add_constraint(x1 <= 6) %>%
+  add_constraint(x1 / 4 + x2 <= 6) %>%
+  solve_model(with_ROI(solver = "glpk")) 
+result
+get_solution(result, x1)
+get_solution(result, x2)
+```
+
+Si nous disposons de vecteurs et de variables comme dans le cas précédent, nous pouvons automatiser un peu avec les fonctions `sum_expr()` pour réaliser une somme et `colwise()` qui permet d'indiquer les coefficients à associer à chaque variable. Pour les contraintes, nous passons par une boucle pour ajouter chacune d'entre elles.
+
+```{r}
+model <- MILPModel() %>%
+  add_variable(x[i], i = 1:2, lb = 0, type = "continuous") %>%
+  set_objective(sum_expr(colwise(z) * x[i], i = 1:2))
+for (j in 1:3) {
+  model <- model %>%
+    add_constraint(sum_expr(colwise(A[j,i]) * x[i], i = 1:2) <= b[j])
+}
+result = model %>%
+  solve_model(with_ROI(solver = "glpk"))
+result
+solution = get_solution(result, x[i])
+solution
+```
+
+### Exercices
+
+#### A la diète
+
+La nourriture d'un troupeau est formé de 3 produits P1, P2 et P3 de prix unitaire 340€, 2400€ et 560€. D'autre part, cette nourriture doit comporter une quantité minimale de protéines, lipides et de vitamines A.
+
+| &nbsp; | seuil minimal|
+|-|--------------|
+| protéines | 1100 |
+| lipides | 1400 |
+| vitamines A | 1500 |
+
+Le tableau suivant décrit les apports d'une unité de chaque produit en protéines, lipides et de vitamines A.
+
+| &nbsp; | protéines | lipides | vitamines A |
+|-|-|-|-|
+| P1 | 1 | 1 | 1 |
+| P2 | 2 | 3 | 1 |
+| P3 | 1 | 2 | 3 |
+
+Déterminer les quantités x1, x2 et x3 des produits P1, P2 et P3 à incorporer à la nourriture pour qu'elle coûte le moins possible et qui assure les seuils minimaux de protéines, lipides et de vitamine A.
+
+#### Production de vins
+
+Dans une distillerie américaine on produit trois sortes de vin allemands authentiques : Heidelberg sweet, Heidelberg regular et Deutschland extra dry. Les produits de base, la main d'oeuvre et le profit par gallon sont indiquées dans le tableau ci-dessous.
+
+| &nbsp; | raisin - type A | raisin - type B | sucre | main d'oeuvre | profit |
+|-|-|-|-|-|-|
+| &nbsp; | (boisseau) | (boisseau) | (kg) | (heures) | (€) |
+Heidelberg sweet    | 1 | 1 | 2 | 2 | 10| 
+Heidelberg regular  | 2 | 0 | 1 | 3 | 12| 
+Deutschl. extra dry | 0 | 2 | 0 | 1 | 20| 
+
+La distillerie possède 150 boisseaux de raisin de type A, 150 boisseaux de raisin de type B, 80 kg de sucre et peut fournir 225 heures de travail. 
+
+Quelles quantitées faut-il produire de ces trois vins pour obtenir un profit maximum ?
+
+## Programmation linéaire en nombre entier
+
+bla bla
+
+### Exemple
+
+Reprenons l'exemple de la famille qui fabrique de la crème glacé et du beurre. Modifions la contrainte sur la quantité de lait disponible. On suppose maintenant que la production est réduite à 20 litres de lait.
+
+Les solutions obtenues ci-dessous nous indiquent qu'il faut produire 3,2 litres de crème glacée et 5,2 litres de beurre. Mais s'il n'est possible que de faire des valeurs entières, on se réduirait à 3 litres de crème et 5 litres de beurre (pour un profit de 35).
+
+```{r}
+result <- MILPModel() %>%
+  add_variable(x1, type = "continuous") %>%
+  add_variable(x2, type = "continuous", lb = 0) %>%
+  set_bounds(x1, lb = 0) %>%
+  set_objective(5 * x1 + 4 * x2, "max") %>%
+  add_constraint(3 * x1 + 2 * x2 <= 20) %>%
+  add_constraint(x1 <= 6) %>%
+  add_constraint(x1 / 4 + x2 <= 6) %>%
+  solve_model(with_ROI(solver = "glpk")) 
+result
+get_solution(result, x1)
+get_solution(result, x2)
+```
+
+En ajoutant comme contrainte que les variables sont entières, nous obtenons un meilleur résultat que précédemment avec un gain de 36 (pour 4 litres de crème glacée et 4 litres de beurre).
+
+```{r}
+result <- MILPModel() %>%
+  add_variable(x1, type = "integer") %>%
+  add_variable(x2, type = "integer", lb = 0) %>%
+  set_bounds(x1, lb = 0) %>%
+  set_objective(5 * x1 + 4 * x2, "max") %>%
+  add_constraint(3 * x1 + 2 * x2 <= 20) %>%
+  add_constraint(x1 <= 6) %>%
+  add_constraint(x1 / 4 + x2 <= 6) %>%
+  solve_model(with_ROI(solver = "glpk")) 
+result
+get_solution(result, x1)
+get_solution(result, x2)
+```
+
+### Exercice
+
+#### Couverture d'ensembles
+
+On souhaite choisir les intervenants dans un projet afin d'avoir toutes les compétences nécessaires en minimisant le coût. On vous donne les informations suivantes :
+
+| | Alice | Babar | Casimir | Donald | Elmer |
+|-|-|-|-|-|-|
+| Coût (h ou €)       | 10 | 4 | 5 | 6 | 7|
+| Rech. Op.           |  1 | 1 | 1 | 0 | 0|
+| Java                |  1 | 0 | 1 | 1 | 0|
+| Bases de données    |  0 | 1 | 1 | 1 | 0|
+| Théorie des graphes |  1 | 0 | 0 | 0 | 1|
+| UML                 |  0 | 1 | 0 | 0 | 1|
+
+L'objectif est de trouver un sous-ensemble des individus de coût minimum, tel que chaque compétence soit couverte au moins une fois.
+
+
+## TP à rendre
+
+- A rendre via mail : `francois-xavier.jollois@parisdescartes.fr`
+  - Envoyer le fichier `Rmd` et le fichier `html`
+- Produire un rapport en html via un fichier `Rmd`
+  - Celui-ci doit être clair et 
+- Répondre aux problèmes suivants
+
+### Publicité
+
+Une entreprise dispose d'un budget publicitaire de 4800 € pour le lancement de son nouveau produit. Sa campagne publicitaire utilisera à la fois des spots télévisés et des pages dans la presse quotidienne. On pense que chaque minute de télévision va atteindre 100 000 nouveaux spectateurs et chaque page dans un journal va être lue par 80 000 nouveaux lecteurs. Une minute de télévision coûte 800 et une page dans un journal 600. La direction de l'entreprise souhaite diffuser au moins trois minutes de spot et une page dans un journal. Son objectif est de maximiser le nombre total de cibles (spectateurs et lecteurs).
+
+1. Modéliser ce problème en programme linéaire.
+2. Représenter l'espace des solutions réalisables.
+3. Quelle est la combinaison optimale si le budget est augmenté de 4800 à 6000 ?
+4. Quelle est la décision optimale s'il n'y a pas de contrainte de temps de télévision ?
+
+### Fabrication d'huile d'olives
+
+Une entreprise fabrique trois qualités différentes d'huile d'olive. Les quantités maximales pouvant être vendues chaque mois ainsi que les prix de vente sont données dans la table suivante :
+
+Produit Ventes maximales Prix de vente
+(en litres) (en =C/litre)
+Huile A 3000 4
+Huile B 3000 6
+Huile C 2000 10
+
+L'entreprise paie 1000 € pour une tonne d'olives. Chaque tonne d'olives fournit soit 300 litres d'huile A soit 200 litres d'huile B (les coûts de ces transformations ne sont pas modélisés). Chaque litre d'huile A peut être rafiné pour produire 6 dl d'huile B et 3 dl d'huile C. Le coût d'un tel rafinement est de 0.5 € par litre. De même, chaque litre d'huile B peut être rafiné pour obtenir 8 dl d'huile C. Le coût de ce rafinement et de 0.3 € par litre.
+
+Formuler un programme linéaire afin d'aider l'entreprise à déterminer un plan de production mensuel maximisant son profit. 
+
+### Compagnie aérienne
+
+Une compagnie aérienne, en pleine expansion, est en train d'organiser son service clientèle et a besoin de savoir le nombre d'employés dont elle aura besoin pour les prochaines années. L'équipe RO doit donc étudier les besoins pour déterminer le nombre minimum de personnel nécessaire afin de satisfaire les demandes des clients. Basé sur l'ordonnancement des vols, un nouveau planning du personnel est préparé pour les différents créneaux horaires de la journée. Les informations nécessaires pour la planification sont données dans le tableau suivant.
+
+|Créneaux| poste 1 | poste 2 | poste 3 | poste 4 | poste 5 | Nb min pers |
+|-|-|-|-|-|-|-|
+|  6h-8h  |x| | | | | 48|
+|  8h-10h |x|x| | | | 79|
+| 10h-12h |x|x| | | | 65|
+| 12h-14h |x|x|x| | | 87|
+| 14h-16h | |x|x| | | 64|
+| 16h-18h | | |x|x| | 73|
+| 18h-20h | | |x|x| | 82|
+| 20h-22h | | | |x| | 43|
+| 22h-24h | | | |x|x| 52|
+| 24h-6h  | | | | |x| 15|
+| Coût/1j,1p | 170 € | 160 € | 175 € | 180 € | 195 € |
+
+Chaque employé doit travailler 8h par jour et 5 jours par semaine. Les postes autorisés comprennent les créneaux suivants (montré aussi dans le tableau par des croix) :
+
+- Poste 1 : 6h à 14h 
+- Poste 2 : 8h à 16h 
+- Poste 3 : 12h à 20h
+- Poste 4 : 16h à 24h 
+- Poste 5 : 22h a 6h
+
+Pour chaque poste, le coût associé est donné dans la dernière ligne du tableau (Coût/1j,1p : Coût pour une journée, pour une personne). 
+
+La question est de savoir combien d'employés il faut affecter dans chaque poste, chaque jour, afin de minimiser le coût total du personnel et en respectant le nombre minimum du personnel nécessaire (dernière colonne dans le tableau).
+
+1. Modéliser ce problème en programme linéaire. Trouver les contraintes redondantes.
+1. Donner la solution optimale
+
