@@ -12,6 +12,7 @@
     - [Introduction à R et **Hadoop**](du-abd--r-hadoop.html) (avec **SparkR**)
 - DU Dataviz
     - [Introduction à Tableau](du-dataviz--tableau)
+    - [Introduction à d3.js](du-dataviz--d3js)
 - Master 1
     - [Analyse de données massives](m1-add-massives/)
 
