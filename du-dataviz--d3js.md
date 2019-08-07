@@ -10,7 +10,7 @@ Les exemples présentés ci-dessous sont disponibles directement [sur cette page
 
 ## Fonctionnement typique
 
-L'edée principale est de lier les **données** au **DOM** (*Document Object Model*), et d'appliquer des transformations, basées sur les données, au document.
+L'idée principale est de lier les **données** au **DOM** (*Document Object Model*), et d'appliquer des transformations, basées sur les données, au document.
 
 Il y a plusieurs concepts spécifiques à bien comprendre pour l'utiliser pleinement :
 
@@ -154,10 +154,9 @@ Si nous ne gérons pas la sortie de la souris, la couleur ne sera jamais rechang
 Pour récupérer les informations de la souris, il existe l'objet `d3.event` qui contient en particulier les informations suivantes :
 
 - `clientX` et `clientY` : position relative à la partie visible du navigateur
-Mouse position relative to the browser's visible viewport.
 - `screenX` et `screenY` : position relative au moniteur
-- `offsetX` et `offsetY` : position relative à l'objet sur lequel la souris est (implémentation varaible entres les navigateurs)
-- `pageX` et `pageY` : position relatice au document `HTML`
+- `offsetX` et `offsetY` : position relative à l'objet sur lequel la souris est (implémentation variable entres les navigateurs)
+- `pageX` et `pageY` : position relative au document `HTML`
 
 Voici un petit exemple de ce qu'on peut récupérer comme informations.
 
@@ -173,7 +172,7 @@ Ces graphiques sont définis dans un langage de type `XML` (et donc similaire à
 Vous pouvez trouver dans les liens qui suivent un certain nombre d'informations sur ces graphiques :
 
 - [Section `SVG` sur W3Schools](http://www.w3schools.com/svg/)
-- [REcommandation W3C traduite](http://www.yoyodesign.org/doc/w3c/svg1/)
+- [Recommandation W3C traduite](http://www.yoyodesign.org/doc/w3c/svg1/)
 - [Section SVG sur Mozilla](https://developer.mozilla.org/fr/docs/Web/SVG)
 
 Dans l'exemple ci-dessous, nous créons un graphique de largeur 200 pixels et de hauteur 100 pixels. Une fois créé, on ajoute une transformation (via la balise `g` ajoutée). Celle-ci est une translation de 10 pixels en *x* et de 10 pixels en *y*. C'est le résultat de la translation qui est renvoyé, ce qui veut dire que tout ce qu'on ajoute intégrera donc cette première translation.
@@ -188,7 +187,7 @@ On ajoute ensuite un rectangle dont le point haut gauche est situé en *(0,0)*. 
 
 Dans un graphique, nous devons faire un passage d'échelle entre les données et la zone graphique. Par exemple, si l'on doit afficher des valeurs entre -1000 et 1000 sur l'axe *x*, il nous faut une fonction pour les transformer dans l'intervalle *[0,largeur]* (où *largeur* représente la largeur du graphique `SVG` produit).
 
-Les fonctions dans D3 pour réaliser cela ont toutes comme nom `d3.scale.xxx()`, où `xxx` est à remplacer par le type de changement d'échelle qu'on souhaite. Il faut notre que ces fonctions renvoient elle-même une fonction de changement d'échelle. Il faut de plus déterminer deux éléments importants :
+Les fonctions dans D3 pour réaliser cela ont toutes comme nom `d3.scaleXxx()`, où `Xxx` est à remplacer par le type de changement d'échelle qu'on souhaite. Il faut notre que ces fonctions renvoient elle-même une fonction de changement d'échelle. Il faut de plus déterminer deux éléments importants :
 
 - Le **domaine** (ou *domain*) : la plage des données d'origine
 - L'**étendu** (ou *range*) : la plage de ce qu'on doit obtenir au final
@@ -197,7 +196,7 @@ Les fonctions dans D3 pour réaliser cela ont toutes comme nom `d3.scale.xxx()`,
 
 #### Vers du numérique
 
-L'exemple proposé ci-dessus est typiquement un problème de changement d'échelle **linéaire**. Il existe pour cela la fonction `d3.scale.linear()`.
+L'exemple proposé ci-dessus est typiquement un problème de changement d'échelle **linéaire**. Il existe pour cela la fonction `d3.scaleLinear()`.
 
 ```js
 var echelle = d3.scaleLinear()
