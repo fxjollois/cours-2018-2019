@@ -1,3 +1,5 @@
+# cours-2018-2019
+
 ## Département STID, IUT Paris Descartes
 
 - DUT STID 2ème année (en alternance)
@@ -13,6 +15,9 @@
 - DU Dataviz
     - [Introduction à Tableau](du-dataviz--tableau)
     - [Introduction à d3.js](du-dataviz--d3js)
+    
+## UFR Math-Info
+
 - Master 1
     - [Analyse de données massives](m1-add-massives/)
 
